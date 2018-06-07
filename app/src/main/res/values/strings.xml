@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Parkino</string>
+    <string name="login">Login</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account_signup">Don\'t have an account ? SIGNUP</string>
+    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="re_type_password">Re-type password</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email_address">Email address</string>
+    <string name="username">Username</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="points">Points</string>
+    <string name="cards">Cards</string>
+    <string name="garages">Garages</string>
+    <string name="settings">Settings</string>
+</resources>

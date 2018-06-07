@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="76dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginTop="6dp"
+    android:background="#757575">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+
+        <ImageView
+            android:id="@+id/img_rfid_logo"
+            android:layout_width="99dp"
+            android:layout_height="76dp"
+            android:src="@drawable/rf_cards_and_supplies" />
+
+        <TextView
+            android:id="@+id/tv_card_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/img_rfid_logo"
+            android:layout_toRightOf="@id/img_rfid_logo"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/whiteColor"
+            android:textSize="20sp"
+            tools:text="1234567891234567" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="4dp"
+        android:src="@drawable/white_logo" />
+</RelativeLayout>

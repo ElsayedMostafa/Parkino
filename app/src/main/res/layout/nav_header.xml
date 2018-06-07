@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="176dp"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:overScrollMode="never">
+    <ImageView
+        android:src="@drawable/ic_home_black_24dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        />
+    <TextView
+        android:id="@+id/user_name_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ahmed ali"
+        android:textColor="@color/whiteColor"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    <TextView
+        android:id="@+id/user_email_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ahmedali@gmail.com"
+        android:textColor="@color/whiteColor"
+        />
+</LinearLayout>
