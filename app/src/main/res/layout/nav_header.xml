@@ -9,7 +9,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:overScrollMode="never">
     <ImageView
-        android:src="@drawable/ic_home_black_24dp"
+        android:src="@drawable/default_profile_image"
         android:layout_width="72dp"
         android:layout_height="72dp"
         />

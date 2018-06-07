@@ -66,7 +66,9 @@ public class UserProfileFragment extends Fragment {
                         .commit();
             }
         });
+        if(savedInstanceState==null){
         getUserProfile();
+        }
 
     }
 

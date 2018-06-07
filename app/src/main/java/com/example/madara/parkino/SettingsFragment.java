@@ -1,5 +1,6 @@
 package com.example.madara.parkino;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,12 +13,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.madara.parkino.models.UserProfileResponse;
+import com.example.madara.parkino.utils.Session;
+import com.example.madara.parkino.webservices.WebService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener{
+    private final static String TAG ="SettingsFragment";
     private ImageView nameSettingButton, emailSettingButton, passwordSettingButton, phoneSettingButton;
     private TextView nameSetting, emailSetting, passwordSetting, phoneSetting;
-
+    private Call<UserProfileResponse> getProfileCall;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -44,10 +55,45 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         emailSettingButton.setOnClickListener(this);
         passwordSettingButton.setOnClickListener(this);
         phoneSettingButton.setOnClickListener(this);
+        getUserProfile();
+    }
+    private void getUserProfile() {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        getProfileCall = WebService.getInstance().getApi().getUserProfile(Session.getInstance().getUser().id);
+        getProfileCall.enqueue(new Callback<UserProfileResponse>() {
+            @Override
+            public void onResponse(Call<UserProfileResponse> call, Response<UserProfileResponse> response) {
+                //Log.e(TAG,response.body().toString());
+                if (!getProfileCall.isCanceled()) {
+                    try {
+                        if (response.body().status == 1) {
+                            progressDialog.cancel();
+                            nameSetting.setText(response.body().user.user_name);
+                            emailSetting.setText(response.body().user.user_email);
+                            phoneSetting.setText(response.body().user.phone_number);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
+                        progressDialog.cancel();
+                    }
+                }
 
+
+            }
+
+            @Override
+            public void onFailure(Call<UserProfileResponse> call, Throwable t) {
+                if (!getProfileCall.isCanceled()) {
+                    Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
+                    progressDialog.cancel();
+                }
+            }
+        });
 
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -87,5 +133,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 break;
         }
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (getProfileCall != null) {
+            getProfileCall.cancel();
+        }
     }
 }
