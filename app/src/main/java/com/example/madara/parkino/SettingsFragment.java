@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     private final static String TAG ="SettingsFragment";
     private ImageView nameSettingButton, emailSettingButton, passwordSettingButton, phoneSettingButton;
     private TextView nameSetting, emailSetting, passwordSetting, phoneSetting;
+    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Call<UserProfileResponse> getProfileCall;
     public SettingsFragment() {
         // Required empty public constructor
@@ -43,6 +47,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout  = (SwipeRefreshLayout) view.findViewById(R.id.settings_refresh);
+        progressBar = (ProgressBar) view.findViewById(R.id.settings_progressbar);
         nameSetting = (TextView) view.findViewById(R.id.tv_setting_name);
         emailSetting = (TextView) view.findViewById(R.id.tv_setting_email);
         passwordSetting = (TextView) view.findViewById(R.id.tv_setting_password);
@@ -55,13 +61,22 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         emailSettingButton.setOnClickListener(this);
         passwordSettingButton.setOnClickListener(this);
         phoneSettingButton.setOnClickListener(this);
-        getUserProfile();
+        if(getProfileCall==null){
+        getUserProfile();}
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                if(getProfileCall==null){
+                    getUserProfile();
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
     private void getUserProfile() {
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
         getProfileCall = WebService.getInstance().getApi().getUserProfile(Session.getInstance().getUser().id);
         getProfileCall.enqueue(new Callback<UserProfileResponse>() {
             @Override
@@ -70,14 +85,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                 if (!getProfileCall.isCanceled()) {
                     try {
                         if (response.body().status == 1) {
-                            progressDialog.cancel();
+                            progressBar.setVisibility(View.GONE);
                             nameSetting.setText(response.body().user.user_name);
                             emailSetting.setText(response.body().user.user_email);
                             phoneSetting.setText(response.body().user.phone_number);
+                            getProfileCall = null;
                         }
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
-                        progressDialog.cancel();
+                        progressBar.setVisibility(View.GONE);
+                        getProfileCall=null;
                     }
                 }
 
@@ -88,7 +105,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
             public void onFailure(Call<UserProfileResponse> call, Throwable t) {
                 if (!getProfileCall.isCanceled()) {
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-                    progressDialog.cancel();
+                    progressBar.setVisibility(View.GONE);
+                    getProfileCall = null;
                 }
             }
         });

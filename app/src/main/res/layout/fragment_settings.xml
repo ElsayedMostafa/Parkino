@@ -1,163 +1,191 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:padding="8dp"
-    android:weightSum="2"
     tools:context="com.example.madara.parkino.SettingsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="84dp"
-            android:layout_height="84dp"
+        <ProgressBar
+            android:id="@+id/settings_progressbar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerInParent="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/default_profile_image" />
+            android:elevation="4dp"
+            android:visibility="gone" />
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/image_border"
-            android:contentDescription="Image Border"
-            android:padding="0dp" />
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_profile_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/image_border"
+                    android:contentDescription="Image Border"
+                    android:padding="0dp" />
+
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="8dp">
+
+                            <TextView
+                                android:id="@+id/tv_setting_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="8dp"
+                                android:paddingLeft="6dp"
+                                android:paddingTop="6dp"
+                                android:textColor="@color/lowBlackColor"
+                                android:textSize="18sp"
+                                tools:text="Willian Snoe" />
+
+                            <ImageView
+                                android:id="@+id/img_setting_name"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_marginVertical="10dp"
+                                android:clickable="true"
+                                android:contentDescription="Edit image icon"
+                                android:src="@drawable/ic_edit_black_24dp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="8dp">
+
+                            <TextView
+                                android:id="@+id/tv_setting_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="6dp"
+                                android:paddingLeft="6dp"
+                                android:paddingTop="6dp"
+                                android:textColor="@color/lowBlackColor"
+                                android:textSize="18sp"
+                                tools:text="Wiliam@gmail.com" />
+
+                            <ImageView
+                                android:id="@+id/img_setting_email"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_marginVertical="10dp"
+                                android:clickable="true"
+                                android:contentDescription="Edit image icon"
+                                android:src="@drawable/ic_edit_black_24dp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="8dp">
+
+                            <TextView
+                                android:id="@+id/tv_setting_password"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center_vertical"
+                                android:inputType="textPassword"
+                                android:paddingBottom="6dp"
+                                android:paddingLeft="6dp"
+                                android:paddingTop="6dp"
+                                android:text="password"
+                                android:textColor="@color/lowBlackColor"
+                                android:textSize="18sp" />
+
+                            <ImageView
+                                android:id="@+id/img_setting_password"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_marginVertical="10dp"
+                                android:clickable="true"
+                                android:contentDescription="Edit image icon"
+                                android:src="@drawable/ic_edit_black_24dp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="8dp">
+
+                            <TextView
+                                android:id="@+id/tv_setting_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/textview_border"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="8dp"
+                                android:paddingLeft="6dp"
+                                android:textColor="@color/lowBlackColor"
+                                android:textSize="18sp"
+                                tools:text="+266 225 225" />
+
+                            <ImageView
+                                android:id="@+id/img_setting_phone"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginHorizontal="5dp"
+                                android:layout_marginVertical="10dp"
+                                android:clickable="true"
+                                android:contentDescription="Edit image icon"
+                                android:src="@drawable/ic_edit_black_24dp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </TableLayout>
+            </ScrollView>
+        </LinearLayout>
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/tv_setting_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/textview_border"
-                android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:paddingLeft="6dp"
-                android:paddingTop="6dp"
-                tools:text="Willian Snoe"
-                android:textColor="@color/lowBlackColor"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/img_setting_name"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="10dp"
-                android:clickable="true"
-                android:contentDescription="Edit image icon"
-                android:src="@drawable/ic_edit_black_24dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/tv_setting_email"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/textview_border"
-                android:gravity="center_vertical"
-                android:paddingBottom="6dp"
-                android:paddingLeft="6dp"
-                android:paddingTop="6dp"
-                tools:text="Wiliam@gmail.com"
-                android:textColor="@color/lowBlackColor"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/img_setting_email"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="10dp"
-                android:clickable="true"
-                android:contentDescription="Edit image icon"
-                android:src="@drawable/ic_edit_black_24dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/tv_setting_password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/textview_border"
-                android:gravity="center_vertical"
-                android:inputType="textPassword"
-                android:paddingBottom="6dp"
-                android:paddingLeft="6dp"
-                android:paddingTop="6dp"
-                android:text="password"
-                android:textColor="@color/lowBlackColor"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/img_setting_password"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="10dp"
-                android:clickable="true"
-                android:contentDescription="Edit image icon"
-                android:src="@drawable/ic_edit_black_24dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/tv_setting_phone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/textview_border"
-                android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:paddingLeft="6dp"
-                tools:text="+266 225 225"
-                android:textColor="@color/lowBlackColor"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/img_setting_phone"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="10dp"
-                android:clickable="true"
-                android:contentDescription="Edit image icon"
-                android:src="@drawable/ic_edit_black_24dp" />
-        </RelativeLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

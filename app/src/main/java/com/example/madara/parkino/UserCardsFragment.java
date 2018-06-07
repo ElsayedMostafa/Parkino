@@ -82,7 +82,8 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
         cards = new ArrayList<CardResponse>();
         cardAdapter = new CardAdapter(cards, getActivity());
         recyclerView.setAdapter(cardAdapter);
-        getCards();
+        if(getCardsCall==null){
+        getCards();}
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipChatRoomCallBack);
         itemTouchHelper.attachToRecyclerView(recyclerView);
         bindCard.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +98,10 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
+
+                if(getCardsCall==null){
                 getCards();
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -186,9 +190,11 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
                         //cardAdapter = new CardAdapter(cards, getActivity());
                         recyclerView.setAdapter(cardAdapter);
                         progressBar.setVisibility(View.GONE);
+                        getCardsCall=null;
                     } catch (Exception e) {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                        getCardsCall=null;
                     }
                 }
             }
@@ -198,6 +204,7 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
                 if (!getCardsCall.isCanceled()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
+                    getCardsCall=null;
                 }
             }
         });
