@@ -43,6 +43,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:12.0.0'
     compile 'com.google.android.gms:play-services-vision:12.0.0'
     compile 'com.google.android.gms:play-services:12.0.0'
+    compile 'com.craftman.cardform:cardform:0.0.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
 apply plugin: 'realm-android'

@@ -51,7 +51,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".QRScanner" />
         <activity android:name=".EditSettings" />
-        <activity android:name=".Logout"></activity>
+        <activity android:name=".Logout" />
+        <activity android:name=".CreditScreen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
