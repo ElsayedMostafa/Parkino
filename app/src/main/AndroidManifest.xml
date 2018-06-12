@@ -52,8 +52,10 @@
         <activity android:name=".QRScanner" />
         <activity android:name=".EditSettings" />
         <activity android:name=".Logout" />
-        <activity android:name=".CreditScreen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CreditScreen"
+            android:label="Credit Card" />
+        <activity android:name=".GarageProfile"></activity>
     </application>
 
 </manifest>

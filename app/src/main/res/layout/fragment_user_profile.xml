@@ -1,227 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/profile_refresh"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<ScrollView
+    android:id="@+id/profile_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa">
-    <TableLayout
+    tools:context="com.example.madara.parkino.UserProfileFragment">
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:background="#fafafa">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ProgressBar
                 android:id="@+id/profile_progressbar"
-                android:elevation="4dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:visibility="gone"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:elevation="4dp"
+                android:visibility="visible" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fafafa"
-            android:orientation="vertical"
-            tools:context="com.example.madara.parkino.UserProfileFragment">
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="350dp">
+                android:layout_height="match_parent"
+                android:background="#fafafa"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:background="@drawable/profilegradientbackground"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="98dp"
-                        android:layout_height="98dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="72dp"
-                        android:src="@drawable/default_profile_image" />
-
-                    <TextView
-                        android:id="@+id/txt_profile_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:textColor="#fff"
-                        android:textSize="21sp"
-                        android:textStyle="bold"
-                        tools:text="Wiliam Snoe" />
-                </LinearLayout>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="98dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="230dp">
+                    android:layout_height="350dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:layout_height="280dp"
+                        android:background="@drawable/profilegradientbackground"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="98dp"
+                            android:layout_height="98dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="72dp"
+                            android:src="@drawable/default_profile_image" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/points"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:id="@+id/txt_profile_points"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="10dp"
-                                android:textColor="@color/startBlue"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                tools:text="125" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/cards"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:id="@+id/txt_profile_cards"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="10dp"
-                                android:textColor="@color/startBlue"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                tools:text="1205" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/garages"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:id="@+id/txt_profile_garages"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="10dp"
-                                android:textColor="@color/startBlue"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                tools:text="360" />
-
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/txt_profile_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:textColor="#fff"
+                            android:textSize="21sp"
+                            android:textStyle="bold"
+                            tools:text="Wiliam Snoe" />
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
-            </RelativeLayout>
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="98dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginTop="230dp">
 
-            <LinearLayout
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/points"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/txt_profile_points"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="10dp"
+                                    android:textColor="@color/startBlue"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    tools:text="125" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/cards"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/txt_profile_cards"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="10dp"
+                                    android:textColor="@color/startBlue"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    tools:text="1205" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/garages"
+                                    android:textSize="20sp" />
+
+                                <TextView
+                                    android:id="@+id/txt_profile_garages"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="10dp"
+                                    android:textColor="@color/startBlue"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    tools:text="360" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="360dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="25dp">
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/ic_email_black_24dp"
-                        android:tint="@color/startBlue" />
-
-                    <TextView
-                        android:id="@+id/txt_profile_useremail"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:textStyle="bold"
-                        tools:text="Wiliam@gmail.com" />
+                        android:orientation="horizontal"
+                        android:paddingLeft="25dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/ic_email_black_24dp"
+                            android:tint="@color/startBlue" />
+
+                        <TextView
+                            android:id="@+id/txt_profile_useremail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="20dp"
+                            android:textStyle="bold"
+                            tools:text="Wiliam@gmail.com" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="25dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/ic_phone_android_black_24dp"
+                            android:tint="@color/startBlue" />
+
+                        <TextView
+                            android:id="@+id/txt_profile_userphone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="20dp"
+                            android:textStyle="bold"
+                            tools:text="+266 225 225" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/btn_profile_settings"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="25dp">
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/ic_phone_android_black_24dp"
-                        android:tint="@color/startBlue" />
-
-                    <TextView
-                        android:id="@+id/txt_profile_userphone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="20dp"
-                        android:textStyle="bold"
-                        tools:text="+266 225 225" />
-                </LinearLayout>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:width="120dp"
+                    android:background="@color/endtBlue"
+                    android:text="@string/settings"
+                    android:textAllCaps="false"
+                    android:textColor="#fff" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_profile_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginTop="8dp"
-                android:width="120dp"
-                android:background="@color/endtBlue"
-                android:text="@string/settings"
-                android:textAllCaps="false"
-                android:textColor="#fff" />
-
-        </LinearLayout>
         </RelativeLayout>
-    </TableLayout>
-</ScrollView>
+    </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

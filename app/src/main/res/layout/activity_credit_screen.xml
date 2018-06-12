@@ -7,9 +7,10 @@
     android:padding="16dp"
     tools:context="com.example.madara.parkino.CreditScreen">
     <com.craftman.cardform.CardForm
+        android:layout_centerInParent="true"
         android:id="@+id/credit_card_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         />
 
 </RelativeLayout>

@@ -4,6 +4,8 @@ package com.example.madara.parkino.webservices;
 
 import com.example.madara.parkino.models.Card;
 import com.example.madara.parkino.models.CardResponse;
+import com.example.madara.parkino.models.Garage;
+import com.example.madara.parkino.models.GarageRequest;
 import com.example.madara.parkino.models.LoginResponse;
 import com.example.madara.parkino.models.MainResponse;
 import com.example.madara.parkino.models.User;
@@ -42,8 +44,8 @@ public interface Api {
     @POST("userProfileData")
     Call<UserProfileResponse> getUserProfile(@Field("userid") int user_id);
 
-//    @POST("getGarages")
-//    Call<List<Garage>> getGarages(@Body GarageRequest garageRequest);
+    @POST("getGarages")
+    Call<List<Garage>> getGarages(@Body GarageRequest garageRequest);
 //    //edit user information
     @POST("changename")
     Call<MainResponse> changeName(@Body User user);
