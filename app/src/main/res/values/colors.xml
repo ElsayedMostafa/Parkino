@@ -12,6 +12,8 @@
     <color name="duskYellow">#F9F398</color>
     <color name="lightGrey">#d3d3d3</color>
     <color name="blackColor">#000000</color>
+    <color name="secondarytext">#757575</color>
+    <color name="primarytext">#212121</color>
 
 
 </resources>
