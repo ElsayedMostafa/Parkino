@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -18,18 +21,21 @@ import com.example.madara.parkino.R;
 import com.example.madara.parkino.models.Garage;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by madara on 3/12/18.
  */
 
-public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHolder> {
+public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHolder> implements Filterable {
     private static final String TAG = "GarageAdapter";
-    List<Garage> garageList;
+    private List<Garage> garageList;
+    private List<Garage> garageListFull;
     private Context context;
     public GarageAdapter(List<Garage> garageList , Context ctx) {
         this.garageList = garageList;
+        garageListFull = new ArrayList<>(garageList);
         this.context = ctx;
     }
 
@@ -71,6 +77,8 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
         return garageList.size();
     }
 
+
+
     class GarageHolder extends RecyclerView.ViewHolder {
         TextView _garageName, _garageDistance, _garageId, _slotsNumbers, _emptySlots, _points, _lng, _lat;
         RatingBar _stars;
@@ -92,4 +100,38 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
 
         }
     }
+    @Override
+    public Filter getFilter() {
+        return garageFilter;
+    }
+    private Filter garageFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Garage> filteredList = new ArrayList<>();
+            if(constraint == null|| constraint.length() ==0){
+                filteredList.addAll(garageListFull);
+            }
+            else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for(Garage garage:garageListFull){
+                    if(garage.getName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(garage);
+                    }
+
+                }
+
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            garageList.clear();
+            garageList.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

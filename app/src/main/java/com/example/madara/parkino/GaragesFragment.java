@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.madara.parkino.adapters.GarageAdapter;
@@ -40,8 +41,11 @@ public class GaragesFragment extends Fragment {
     private RecyclerView recyclerView ;
     private ProgressBar progressBar;
     private Call<List<Garage>> getGaragesCall;
-    private List<Garage> garages;
+    private List<Garage> garages = new ArrayList<Garage>();
     private GarageAdapter garageAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
+
 
 
 
@@ -60,18 +64,30 @@ public class GaragesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
         recyclerView = view.findViewById(R.id.garages_recyclerview);
         progressBar = view.findViewById(R.id.garages_progressbar);
-        garages = new ArrayList<>();
-        String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
-        garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+        swipeRefreshLayout = view.findViewById(R.id.garages_refresh);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        garageAdapter = new GarageAdapter(garages,getActivity());
-        recyclerView.setAdapter(garageAdapter);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+
+                if(getGaragesCall==null){
+                    getGarages("123","123");
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        if(getGaragesCall==null){
+            getGarages("123","123");
+             }
 
 
     }
     private void getGarages(String lng, String lat){
+        progressBar.setVisibility(View.VISIBLE);
         GarageRequest garagerequest = new GarageRequest();
         garagerequest.user_id =  Session.getInstance().getUser().id;
         garagerequest.latitude = lat;
@@ -84,23 +100,55 @@ public class GaragesFragment extends Fragment {
                 if(!getGaragesCall.isCanceled()){
                 try {
                     garages = response.body();
-                    garageAdapter = new GarageAdapter(garages, getActivity());
+                    garageAdapter = new GarageAdapter(garages,getActivity());
                     recyclerView.setAdapter(garageAdapter);
+                    progressBar.setVisibility(View.GONE);
+                    getGaragesCall = null;
                 }catch (Exception e){
                     Log.e(TAG,"failed to get garages");
+                    progressBar.setVisibility(View.GONE);
+                    getGaragesCall = null;
+
                 }}
             }
             @Override
             public void onFailure(Call<List<Garage>> call, Throwable t) {
                 if(!getGaragesCall.isCanceled()) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
+                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garageAdapter = new GarageAdapter(garages,getActivity());
+                    recyclerView.setAdapter(garageAdapter);
+                    getGaragesCall = null;
                 }
             }
         });
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_search,menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
 
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                garageAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
     public void onResume() {
