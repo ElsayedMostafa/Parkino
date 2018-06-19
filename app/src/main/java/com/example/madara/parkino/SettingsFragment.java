@@ -61,8 +61,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         emailSettingButton.setOnClickListener(this);
         passwordSettingButton.setOnClickListener(this);
         phoneSettingButton.setOnClickListener(this);
-        if(getProfileCall==null){
-        getUserProfile();}
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -115,6 +114,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
+        if(getProfileCall==null){
+            getUserProfile();}
         ((HomeScreen) getActivity()).getSupportActionBar().setTitle("Settings");
     }
 
@@ -152,6 +153,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         }
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

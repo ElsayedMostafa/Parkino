@@ -4,10 +4,12 @@ package com.example.madara.parkino.webservices;
 
 import com.example.madara.parkino.models.Card;
 import com.example.madara.parkino.models.CardResponse;
+import com.example.madara.parkino.models.ChargeRequest;
 import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.GarageRequest;
 import com.example.madara.parkino.models.LoginResponse;
 import com.example.madara.parkino.models.MainResponse;
+import com.example.madara.parkino.models.SendFeedbackRequest;
 import com.example.madara.parkino.models.User;
 import com.example.madara.parkino.models.UserProfileResponse;
 
@@ -26,8 +28,8 @@ import retrofit2.http.POST;
 
 public interface Api {
     @Headers("content-type: application/json")
-    //@POST("login")
-    @POST("login-user.php")
+    @POST("login")
+    //@POST("login-user.php")
     Call<LoginResponse> loginUser(@Body User user);
 //
 //    //@POST("register-user.php")
@@ -46,13 +48,19 @@ public interface Api {
 
     @POST("getGarages")
     Call<List<Garage>> getGarages(@Body GarageRequest garageRequest);
+    @POST("getUserGarages")
+    Call<List<Garage>> getUserGarages(@Body GarageRequest garageRequest);
 //    //edit user information
-    @POST("changename")
+    @POST("ChangeUsername")
     Call<MainResponse> changeName(@Body User user);
-    @POST("changeemail")
+    @POST("ChangeEmail")
     Call<MainResponse> changeEmail(@Body User user);
-    @POST("changepassword")
+    @POST("ChangePassword")
     Call<MainResponse> changePassword(@Body User user);
-    @POST("changephone")
+    @POST("ChangePhoneNumber")
     Call<MainResponse> changePhone(@Body User user);
+    @POST("charge")
+    Call<MainResponse> charge (@Body ChargeRequest chargeRequest);
+    @POST("feedback")
+    Call<MainResponse> feedback (@Body SendFeedbackRequest sendFeedbackRequest);
 }

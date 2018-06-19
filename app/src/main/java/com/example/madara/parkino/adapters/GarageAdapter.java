@@ -59,7 +59,8 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
         holder._lng.setText(garage.getLng());
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
-        Picasso.get().load(garage.getImage()).resize(108,108).into(holder._image);
+        //156.217.47.80:8000
+        Picasso.get().load("http://"+garage.getImage()+"/garagePhotosFolder/2/profile.jpg").resize(108,108).into(holder._image);
         holder._btn_opengarage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,10 +118,11 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
                     if(garage.getName().toLowerCase().contains(filterPattern)){
                         filteredList.add(garage);
                     }
-
                 }
 
+
             }
+            Log.e(TAG,garageListFull.toString());
             FilterResults results = new FilterResults();
             results.values = filteredList;
             return results;

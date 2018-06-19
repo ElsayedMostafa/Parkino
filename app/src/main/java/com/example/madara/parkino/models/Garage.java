@@ -15,7 +15,7 @@ public class Garage {
     public String lat;
     @SerializedName("longitude")
     public String lng;
-    @SerializedName("image")
+    @SerializedName("grageURL")
     public String image;
     @SerializedName("distance")
     public String distance;

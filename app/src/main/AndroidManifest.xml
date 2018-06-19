@@ -55,7 +55,9 @@
         <activity
             android:name=".CreditScreen"
             android:label="Credit Card" />
-        <activity android:name=".GarageProfile"></activity>
+        <activity android:name=".GarageProfile" />
+        <activity android:name=".SendFeedback"
+            android:label="Send Feedback"></activity>
     </application>
 
 </manifest>

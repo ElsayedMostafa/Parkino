@@ -80,8 +80,8 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         cards = new ArrayList<CardResponse>();
-        cardAdapter = new CardAdapter(cards, getActivity());
-        recyclerView.setAdapter(cardAdapter);
+        //cardAdapter = new CardAdapter(cards, getActivity());
+        //recyclerView.setAdapter(cardAdapter);
         if(getCardsCall==null){
         getCards();}
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipChatRoomCallBack);
@@ -187,7 +187,7 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
                 if (!getCardsCall.isCanceled()) {
                     try {
                         cards = response.body();
-                        //cardAdapter = new CardAdapter(cards, getActivity());
+                        cardAdapter = new CardAdapter(cards, getActivity());
                         recyclerView.setAdapter(cardAdapter);
                         progressBar.setVisibility(View.GONE);
                         getCardsCall=null;

@@ -46,7 +46,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         mLogin.setOnClickListener(this);
         mLoginNoAccount.setOnClickListener(this);
 
-
     }
     private void onLoginFailed() {
         mLogin.setEnabled(true);
@@ -74,6 +73,21 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
         return valid;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mLoginCall!=null){
+            mLoginCall.cancel();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -101,48 +115,47 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         // check for status value comming from server (response of login-user.php file status)
                         if(!mLoginCall.isCanceled()){
-                        try{
-                            if (response.body().status == 0) {
-                                Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
-                                mLogin.setEnabled(true);
-                                progressDialog.cancel();
-                            } else if (response.body().status == 1) {
-                                Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
-                                Log.e(TAG,response.body().toString());
-                                user.username = response.body().user.user_name;
-                                user.id = response.body().user.id;
-                                user.email = response.body().user.user_email;
-                                user.phone_number = response.body().user.phone_number;
-                                Session.getInstance().startSession(user);
-                                progressDialog.cancel();
-                                Intent goToMain = new Intent(LoginScreen.this, HomeScreen.class);
-                                startActivity(goToMain);
-                                finish();
+                            try{
+                                if (response.body().status == 0) {
+                                    Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
+                                    mLogin.setEnabled(true);
+                                    progressDialog.cancel();
+                                } else if (response.body().status == 1) {
+                                    Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
+                                    user.username = response.body().user.user_name;
+                                    user.id = response.body().user.id;
+                                    user.email = response.body().user.user_email;
+                                    user.phone_number = response.body().user.phone_number;
+                                    Session.getInstance().startSession(user);
+                                    progressDialog.cancel();
+                                    Intent goToMain = new Intent(LoginScreen.this, HomeScreen.class);
+                                    startActivity(goToMain);
+                                    finish();
 
 
-                            } else {
-                                progressDialog.cancel();
-                                mLogin.setEnabled(true);
-                                Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    progressDialog.cancel();
+                                    mLogin.setEnabled(true);
+                                    Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
+                                }
+
                             }
-
-                        }
-                        catch (Exception e){
-                            Toast.makeText(LoginScreen.this, "Failed" + e.toString() , Toast.LENGTH_LONG).show();
-                            Log.e(TAG,e.toString());
-                            mLogin.setEnabled(true);
-                            progressDialog.cancel();
-                        }}
+                            catch (Exception e){
+                                Toast.makeText(LoginScreen.this, "Failed" + e.toString() , Toast.LENGTH_LONG).show();
+                                Log.e(TAG,e.toString());
+                                mLogin.setEnabled(true);
+                                progressDialog.cancel();
+                            }}
                     }
 
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         if(!mLoginCall.isCanceled()){
-                        Log.e(TAG, t.getLocalizedMessage());
-                        progressDialog.cancel();
-                        Toast.makeText(getBaseContext(), "Check Network Connection", Toast.LENGTH_LONG).show();
-                        mLogin.setEnabled(true);
+                            Log.e(TAG, t.getLocalizedMessage());
+                            progressDialog.cancel();
+                            Toast.makeText(getBaseContext(), "Check Network Connection", Toast.LENGTH_LONG).show();
+                            mLogin.setEnabled(true);
                         }
 
                     }
@@ -150,18 +163,5 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                 break;
 
         }
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(mLoginCall!=null){
-            mLoginCall.cancel();
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 }

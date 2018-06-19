@@ -11,10 +11,10 @@ public class CardResponse {
     public int user_id;
     @SerializedName("card_no")
     public String mId;
-    @SerializedName("created_at")
-    public String created_at;
-    @SerializedName("updated_at")
-    public String updated_at;
+//    @SerializedName("created_at")
+//    public String created_at;
+//    @SerializedName("updated_at")
+//    public String updated_at;
 
 
 

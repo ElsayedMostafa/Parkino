@@ -45,10 +45,6 @@ public class GaragesFragment extends Fragment {
     private GarageAdapter garageAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
-
-
-
-
     public GaragesFragment() {
         // Required empty public constructor
     }
@@ -80,9 +76,7 @@ public class GaragesFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-        if(getGaragesCall==null){
-            getGarages("123","123");
-             }
+
 
 
     }
@@ -116,11 +110,11 @@ public class GaragesFragment extends Fragment {
                 if(!getGaragesCall.isCanceled()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    garageAdapter = new GarageAdapter(garages,getActivity());
-                    recyclerView.setAdapter(garageAdapter);
+//                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+//                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+//                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+//                    garageAdapter = new GarageAdapter(garages,getActivity());
+//                    recyclerView.setAdapter(garageAdapter);
                     getGaragesCall = null;
                 }
             }
@@ -142,6 +136,7 @@ public class GaragesFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(garageAdapter!=null)
                 garageAdapter.getFilter().filter(newText);
                 return false;
             }
@@ -154,6 +149,9 @@ public class GaragesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((HomeScreen) getActivity()).getSupportActionBar().setTitle("Find Garage");
+        if(getGaragesCall==null){
+            getGarages("123","123");
+        }
     }
 
     @Override

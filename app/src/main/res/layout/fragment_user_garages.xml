@@ -1,13 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_garages_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.madara.parkino.UserGaragesFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context="com.example.madara.parkino.GaragesFragment">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/backgroundColor">
 
-</RelativeLayout>
+        <ProgressBar
+            android:id="@+id/user_garages_progressbar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:elevation="4dp"
+            android:visibility="invisible" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/user_garages_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundColor"
+            android:overScrollMode="never" />
+
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
