@@ -20,10 +20,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginScreen extends AppCompatActivity implements View.OnClickListener{
+public class LoginScreen extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "LoginScreen";
-    private EditText mLoginEmail,mLoginPassword;
-    private TextView mLoginForgetPassword,mLoginNoAccount;
+    private EditText mLoginEmail, mLoginPassword;
+    private TextView mLoginForgetPassword, mLoginNoAccount;
     private Button mLogin;
     private Call<LoginResponse> mLoginCall;
 
@@ -47,6 +47,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         mLoginNoAccount.setOnClickListener(this);
 
     }
+
     private void onLoginFailed() {
         mLogin.setEnabled(true);
     }
@@ -77,7 +78,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mLoginCall!=null){
+        if (mLoginCall != null) {
             mLoginCall.cancel();
         }
     }
@@ -114,8 +115,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         // check for status value comming from server (response of login-user.php file status)
-                        if(!mLoginCall.isCanceled()){
-                            try{
+                        if (!mLoginCall.isCanceled()) {
+                            try {
                                 if (response.body().status == 0) {
                                     Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
                                     mLogin.setEnabled(true);
@@ -139,19 +140,19 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                                     Toast.makeText(LoginScreen.this, response.body().message, Toast.LENGTH_SHORT).show();
                                 }
 
-                            }
-                            catch (Exception e){
-                                Toast.makeText(LoginScreen.this, "Failed" + e.toString() , Toast.LENGTH_LONG).show();
-                                Log.e(TAG,e.toString());
+                            } catch (Exception e) {
+                                Toast.makeText(LoginScreen.this, "Failed" + e.toString(), Toast.LENGTH_LONG).show();
+                                Log.e(TAG, e.toString());
                                 mLogin.setEnabled(true);
                                 progressDialog.cancel();
-                            }}
+                            }
+                        }
                     }
 
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        if(!mLoginCall.isCanceled()){
+                        if (!mLoginCall.isCanceled()) {
                             Log.e(TAG, t.getLocalizedMessage());
                             progressDialog.cancel();
                             Toast.makeText(getBaseContext(), "Check Network Connection", Toast.LENGTH_LONG).show();

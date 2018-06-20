@@ -157,7 +157,7 @@
                         android:layout_alignParentRight="true"
                         android:background="#D32F2F"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Reserve"
+                        android:text="Cancel"
                         android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textColor="@color/whiteColor" />

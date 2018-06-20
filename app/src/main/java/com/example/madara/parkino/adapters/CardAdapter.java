@@ -3,6 +3,7 @@ package com.example.madara.parkino.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
     List<CardResponse> cardslist ;
     Context context;
     public CardAdapter(List<CardResponse> cardslist, Context ctx){
+
         this.cardslist = cardslist;
         this.context = ctx;
     }
@@ -40,7 +42,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardHolder> {
     }
     @Override
     public int getItemCount() {
-        return cardslist.size();
+        if(cardslist!=null){
+        return cardslist.size();}
+        return 0;
     }
     class CardHolder extends RecyclerView.ViewHolder {
         TextView _CardID;

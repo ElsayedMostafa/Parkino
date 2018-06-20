@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.madara.parkino.GarageProfile;
 import com.example.madara.parkino.R;
-import com.example.madara.parkino.models.Card;
 import com.example.madara.parkino.models.Garage;
 import com.squareup.picasso.Picasso;
 
@@ -35,16 +32,16 @@ import java.util.List;
  * Created by madara on 3/12/18.
  */
 
-public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHolder> implements Filterable {
-    private static final String TAG = "GarageAdapter";
+public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.GarageHolder> implements Filterable {
+    private static final String TAG = "UserGarageAdapter";
     private List<Garage> garageList;
     private List<Garage> garageListFull;
     private Context context;
-    Dialog reserveDialog;
-    TextView diaglogReserveGarageName;
-    EditText dialogReservePassword;
+    Dialog cancelDialog;
+    TextView diaglogCancelGarageName;
+    EditText dialogCancelPassword;
     Button buttonStart;
-    public GarageAdapter(List<Garage> garageList , Context ctx) {
+    public UserGarageAdapter(List<Garage> garageList , Context ctx) {
         this.garageList = garageList;
         garageListFull = new ArrayList<>(garageList);
         this.context = ctx;
@@ -53,11 +50,11 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     @NonNull
     @Override
     public GarageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.garage_row, parent, false);
+        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_garage_row, parent, false);
         GarageHolder holder = new GarageHolder(row);
-        reserveDialog = new Dialog(context);
-        reserveDialog.setContentView(R.layout.dialog_reserve);
-        reserveDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cancelDialog = new Dialog(context);
+        cancelDialog.setContentView(R.layout.dialog_cancel);
+        cancelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return holder;
     }
 
@@ -87,24 +84,24 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
         holder._btn_opengarage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                diaglogReserveGarageName = reserveDialog.findViewById(R.id.dialog_reserve_garage_name);
-                dialogReservePassword = reserveDialog.findViewById(R.id.dialog_reserve_password);
-                buttonStart = reserveDialog.findViewById(R.id.dialog_reserve_start);
-                diaglogReserveGarageName.setText(garageList.get(holder.getAdapterPosition()).getName());
+                diaglogCancelGarageName = cancelDialog.findViewById(R.id.dialog_cancel_garage_name);
+                dialogCancelPassword = cancelDialog.findViewById(R.id.dialog_cancel_password);
+                buttonStart = cancelDialog.findViewById(R.id.dialog_cancel_start);
+                diaglogCancelGarageName.setText(garageList.get(holder.getAdapterPosition()).getName());
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String password;
-                        password = dialogReservePassword.getText().toString();
+                        password = dialogCancelPassword.getText().toString();
                         if(password.isEmpty()){
-                            dialogReservePassword.setError("Enter your password");
+                            dialogCancelPassword.setError("Enter your password");
                         }
                         else{
                             Toast.makeText(context,"yes",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                reserveDialog.show();
+                cancelDialog.show();
 
             }
         });

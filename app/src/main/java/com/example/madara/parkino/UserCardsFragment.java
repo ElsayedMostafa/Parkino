@@ -52,7 +52,7 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
     private String mBarcode;
     private String mUserPassword;
     private CardAdapter cardAdapter;
-    private List<CardResponse> cards;
+    private List<CardResponse> cards = new ArrayList<CardResponse>();;
     private Call<List<CardResponse>> getCardsCall;
     private Call<MainResponse> removeCardCall;
     private int position;
@@ -79,7 +79,6 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.cards_refresh);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cards = new ArrayList<CardResponse>();
         //cardAdapter = new CardAdapter(cards, getActivity());
         //recyclerView.setAdapter(cardAdapter);
         if(getCardsCall==null){

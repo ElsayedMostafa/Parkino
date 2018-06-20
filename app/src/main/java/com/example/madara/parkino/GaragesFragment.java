@@ -99,7 +99,7 @@ public class GaragesFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     getGaragesCall = null;
                 }catch (Exception e){
-                    Log.e(TAG,"failed to get garages");
+                    Toast.makeText(getActivity(), "Failed to get garages", Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                     getGaragesCall = null;
 
@@ -110,11 +110,11 @@ public class GaragesFragment extends Fragment {
                 if(!getGaragesCall.isCanceled()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-//                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-//                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-//                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-//                    garageAdapter = new GarageAdapter(garages,getActivity());
-//                    recyclerView.setAdapter(garageAdapter);
+                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garageAdapter = new GarageAdapter(garages,getActivity());
+                    recyclerView.setAdapter(garageAdapter);
                     getGaragesCall = null;
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.madara.parkino;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -88,6 +89,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
             case R.id.it_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AboutFragment())
                         .commit();
+                break;
+            case R.id.it_logout:
+                startActivity(new Intent(HomeScreen.this,Logout.class));
+                finish();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

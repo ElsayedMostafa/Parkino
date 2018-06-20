@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.madara.parkino.adapters.GarageAdapter;
+import com.example.madara.parkino.adapters.UserGarageAdapter;
 import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.GarageRequest;
 import com.example.madara.parkino.utils.Session;
@@ -38,8 +39,9 @@ public class UserGaragesFragment extends Fragment {
     private ProgressBar progressBar;
     private Call<List<Garage>> getUserGaragesCall;
     private List<Garage> userGarages = new ArrayList<Garage>();
-    private GarageAdapter userGarageAdapter;
+    private UserGarageAdapter userGarageAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
 
 
     public UserGaragesFragment() {
@@ -87,7 +89,7 @@ public class UserGaragesFragment extends Fragment {
                 if(!getUserGaragesCall.isCanceled()){
                     try {
                         userGarages = response.body();
-                        userGarageAdapter = new GarageAdapter(userGarages,getActivity());
+                        userGarageAdapter = new UserGarageAdapter(userGarages,getActivity());
                         recyclerView.setAdapter(userGarageAdapter);
                         progressBar.setVisibility(View.GONE);
                         getUserGaragesCall = null;
@@ -103,11 +105,11 @@ public class UserGaragesFragment extends Fragment {
                 if(!getUserGaragesCall.isCanceled()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-//                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-//                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-//                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-//                    garageAdapter = new GarageAdapter(garages,getActivity());
-//                    recyclerView.setAdapter(garageAdapter);
+                    userGarages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    userGarages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    userGarages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    userGarageAdapter = new UserGarageAdapter(userGarages,getActivity());
+                    recyclerView.setAdapter(userGarageAdapter);
                     getUserGaragesCall = null;
                 }
             }
