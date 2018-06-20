@@ -1,6 +1,7 @@
 package com.example.madara.parkino;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ public class GaragesFragment extends Fragment {
     private List<Garage> garages = new ArrayList<Garage>();
     private GarageAdapter garageAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String lat,lng;
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
     public GaragesFragment() {
         // Required empty public constructor
@@ -131,7 +133,13 @@ public class GaragesFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
+                if(!query.trim().isEmpty()){
+                    Intent searchIntent = new Intent(getActivity(),SearchResultsActivity.class);
+                    searchIntent.putExtra("search_text",query);
+                    searchIntent.putExtra("lat",lat);
+                    searchIntent.putExtra("long",lng);
+                    startActivity(searchIntent);
+                }
                 return false;
             }
 

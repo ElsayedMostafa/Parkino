@@ -9,6 +9,8 @@ import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.GarageRequest;
 import com.example.madara.parkino.models.LoginResponse;
 import com.example.madara.parkino.models.MainResponse;
+import com.example.madara.parkino.models.ReserveRequest;
+import com.example.madara.parkino.models.SearchRequest;
 import com.example.madara.parkino.models.SendFeedbackRequest;
 import com.example.madara.parkino.models.User;
 import com.example.madara.parkino.models.UserProfileResponse;
@@ -63,4 +65,8 @@ public interface Api {
     Call<MainResponse> charge (@Body ChargeRequest chargeRequest);
     @POST("feedback")
     Call<MainResponse> feedback (@Body SendFeedbackRequest sendFeedbackRequest);
+    @POST("reserveGarage")
+    Call<MainResponse> reserveGarage(@Body ReserveRequest reserveRequest);
+    @POST("searchGarages")
+    Call<List<Garage>> searchGarages(@Body SearchRequest searchRequest);
 }

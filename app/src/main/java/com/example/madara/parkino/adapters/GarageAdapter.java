@@ -1,6 +1,7 @@
 package com.example.madara.parkino.adapters;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,13 +24,22 @@ import android.widget.Toast;
 
 
 import com.example.madara.parkino.GarageProfile;
+import com.example.madara.parkino.LoginScreen;
 import com.example.madara.parkino.R;
 import com.example.madara.parkino.models.Card;
 import com.example.madara.parkino.models.Garage;
+import com.example.madara.parkino.models.MainResponse;
+import com.example.madara.parkino.models.ReserveRequest;
+import com.example.madara.parkino.utils.Session;
+import com.example.madara.parkino.webservices.WebService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by madara on 3/12/18.
@@ -40,6 +50,7 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     private List<Garage> garageList;
     private List<Garage> garageListFull;
     private Context context;
+    private Call<MainResponse> reserveGarageCall;
     Dialog reserveDialog;
     TextView diaglogReserveGarageName;
     EditText dialogReservePassword;
@@ -108,9 +119,15 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
                         password = dialogReservePassword.getText().toString();
                         if(password.isEmpty()){
                             dialogReservePassword.setError("Enter your password");
+
                         }
                         else{
-                            Toast.makeText(context,"yes",Toast.LENGTH_SHORT).show();
+                            ReserveRequest reserveRequest = new ReserveRequest();
+                            reserveRequest.user_password = password;
+                            reserveRequest.garage_id = garageList.get(holder.getAdapterPosition()).getId();
+                            reserveRequest.user_id = Session.getInstance().getUser().id;
+                            reserveGarage(reserveRequest);
+
                         }
                     }
                 });
@@ -184,4 +201,51 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
             notifyDataSetChanged();
         }
     };
+    public void reserveGarage(ReserveRequest reserveRequest){
+
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Reserving...");
+        progressDialog.show();
+        reserveGarageCall = WebService.getInstance().getApi().reserveGarage(reserveRequest);
+        reserveGarageCall.enqueue(new Callback<MainResponse>() {
+            @Override
+            public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
+                if(!reserveGarageCall.isCanceled()){
+                    try{
+                        if(response.body().status==1){
+                            progressDialog.cancel();
+                            Toast.makeText(context,response.body().message,Toast.LENGTH_LONG).show();
+                            reserveGarageCall =null;
+                            reserveDialog.cancel();
+                        }
+                        if(response.body().status==0){
+                            progressDialog.cancel();
+                            Toast.makeText(context,response.body().message,Toast.LENGTH_LONG).show();
+                            reserveGarageCall =null;
+                            reserveDialog.cancel();
+                        }
+                    }
+                    catch (Exception e){
+                        progressDialog.cancel();
+                        Toast.makeText(context,"Failed",Toast.LENGTH_LONG).show();
+                        reserveGarageCall =null;
+                        reserveDialog.cancel();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainResponse> call, Throwable t) {
+                if(!reserveGarageCall.isCanceled()){
+                    progressDialog.cancel();
+                    Toast.makeText(context,"Check Network Connection",Toast.LENGTH_LONG).show();
+                    reserveGarageCall =null;
+                    reserveDialog.cancel();
+                }
+
+            }
+        });
+    }
+
 }
