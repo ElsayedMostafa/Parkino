@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 public class SearchRequest {
     @SerializedName("Search_text")
     public String searchText;
+    @SerializedName("user_id")
+    public int user_id;
     @SerializedName("latitude")
     public String latitude;
     @SerializedName("longitude")

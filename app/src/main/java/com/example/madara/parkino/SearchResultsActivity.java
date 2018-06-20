@@ -29,11 +29,12 @@ import retrofit2.Response;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private final static String TAG = "GaragesFragment";
-    private RecyclerView recyclerView ;
+    private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private Call<List<Garage>> searchGaragesCall;
     private List<Garage> garages = new ArrayList<Garage>();
     private GarageAdapter garageAdapter;
+    private int id;
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
 
     @Override
@@ -45,17 +46,20 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(SearchResultsActivity.this));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Search Garage");
-        if(getIntent()!=null){
+        if (getIntent() != null) {
             String search_text = getIntent().getStringExtra("search_text");
             String lat = getIntent().getStringExtra("lat");
             String lng = getIntent().getStringExtra("long");
-            searchGarages(search_text,"123","123");
+            id = Session.getInstance().getUser().id;
+            searchGarages(id, search_text, "123", "123");
         }
 
     }
-    private void searchGarages(String search_text,String lng, String lat){
+
+    private void searchGarages(int user_id, String search_text, String lng, String lat) {
         progressBar.setVisibility(View.VISIBLE);
         SearchRequest searchRequest = new SearchRequest();
+        searchRequest.user_id = user_id;
         searchRequest.searchText = search_text;
         searchRequest.latitude = lat;
         searchRequest.longitude = lng;
@@ -64,23 +68,25 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Garage>> call, Response<List<Garage>> response) {
                 //Log.e(TAG,response.body().toString());
-                if(!searchGaragesCall.isCanceled()){
+                if (!searchGaragesCall.isCanceled()) {
                     try {
                         garages = response.body();
-                        garageAdapter = new GarageAdapter(garages,SearchResultsActivity.this);
+                        garageAdapter = new GarageAdapter(garages, SearchResultsActivity.this);
                         recyclerView.setAdapter(garageAdapter);
                         progressBar.setVisibility(View.GONE);
                         searchGaragesCall = null;
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(SearchResultsActivity.this, "Failed to get garages", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.GONE);
                         searchGaragesCall = null;
 
-                    }}
+                    }
+                }
             }
+
             @Override
             public void onFailure(Call<List<Garage>> call, Throwable t) {
-                if(!searchGaragesCall.isCanceled()) {
+                if (!searchGaragesCall.isCanceled()) {
                     //30.787069, 31.000721
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(SearchResultsActivity.this, "Check Network Connection", Toast.LENGTH_LONG).show();
@@ -98,21 +104,21 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_search,menu);
+        inflater.inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                if(!s.trim().isEmpty()){
-                    searchGarages(s,"123","123");
+                if (!s.trim().isEmpty()) {
+                    searchGarages(id, s, "123", "123");
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                if(garageAdapter!=null)
+                if (garageAdapter != null)
                     garageAdapter.getFilter().filter(s);
                 return false;
             }
@@ -123,10 +129,11 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(searchGaragesCall!=null){
+        if (searchGaragesCall != null) {
             searchGaragesCall.cancel();
         }
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
