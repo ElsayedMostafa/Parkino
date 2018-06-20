@@ -1,6 +1,9 @@
 package com.example.madara.parkino.dialogs;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ public class GetPassword extends DialogFragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_get_password,container,false);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return view;
     }
 
@@ -57,9 +61,14 @@ public class GetPassword extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String password = mPassword.getText().toString();
+                if(password.trim().isEmpty()){
+                    mPassword.setError("Enter your Password");
+                }
+                else{
                 int key = getArguments().getInt("num");
                 getDialog().dismiss();
                 listener.getPassword(password,key);
+                }
 
             }
         });

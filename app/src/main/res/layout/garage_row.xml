@@ -146,7 +146,7 @@
                         android:layout_gravity="left"
                         android:fontFamily="@font/roboto"
                         android:textColor="#689F38"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         tools:text="0 P" />
 

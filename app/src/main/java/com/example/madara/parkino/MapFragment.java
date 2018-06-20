@@ -19,6 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
+    private double lat, lng;
+    private String garageName;
 
     public MapFragment() {
         // Required empty public constructor
@@ -30,7 +32,12 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            lat = Double.valueOf(bundle.getString("lat"));
+            lng = Double.valueOf(bundle.getString("long"));
+            garageName = bundle.getString("garageName");
+        }
         mMapView = (MapView) rootView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -61,8 +68,9 @@ public class MapFragment extends Fragment {
 
                 // For dropping a marker at a point on the Map
                 //30.7961272,30.9926828
-                LatLng sydney = new LatLng(30.7961272, 30.9926828);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                LatLng sydney = new LatLng(lat, lng);
+                googleMap.addMarker(new MarkerOptions().position(sydney).title(garageName).snippet("Garage Description"));
+
 
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(16).bearing(0).build();
@@ -71,6 +79,7 @@ public class MapFragment extends Fragment {
         });
         return rootView;
     }
+
     @Override
     public void onResume() {
         super.onResume();

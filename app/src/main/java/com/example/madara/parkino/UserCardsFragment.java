@@ -1,12 +1,14 @@
 package com.example.madara.parkino;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +24,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.madara.parkino.adapters.CardAdapter;
@@ -57,7 +61,6 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
     private Call<MainResponse> removeCardCall;
     private int position;
     public static final int REQUEST_CODE = 100;
-
     public UserCardsFragment() {
         // Required empty public constructor
     }
@@ -204,11 +207,12 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
                     getCardsCall=null;
-//                    cards.add(new CardResponse("123456789123"));
-//                    cards.add(new CardResponse("123456789123"));
-//                    cards.add(new CardResponse("123456789123"));
-//                    cards.add(new CardResponse("123456789123"));
-//                    recyclerView.setAdapter(cardAdapter);
+                   cards.add(new CardResponse("123456789123"));
+                    cards.add(new CardResponse("123456789123"));
+                    cards.add(new CardResponse("123456225685"));
+                    cards.add(new CardResponse("123456700023"));
+                    cardAdapter = new CardAdapter(cards, getActivity());
+                    recyclerView.setAdapter(cardAdapter);
                 }
             }
         });
@@ -292,7 +296,6 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             // get adapter position
             position = viewHolder.getAdapterPosition();
-            // get chat room id from chat rooms list depedning on position
             //int cardID = Integer.parseInt(cards.get(position).getId());
             GetPassword getPassword = new GetPassword();
             Bundle args = new Bundle();

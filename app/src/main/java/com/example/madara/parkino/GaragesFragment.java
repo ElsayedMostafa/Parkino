@@ -108,11 +108,12 @@ public class GaragesFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Garage>> call, Throwable t) {
                 if(!getGaragesCall.isCanceled()) {
+                    //30.787069, 31.000721
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-                    garages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    garages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    garages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+                    garages.add(new Garage("123","Anwar Al Madinah","30.787069","31.000721",url,"0.6", "20","3", 4f,9));
+                    garages.add(new Garage("123","TownTeam","30.787069","31.000721",url,"0.6", "30","3", 4f,9));
+                    garages.add(new Garage("123","Mahalla","30.787069","31.000721",url,"0.6", "40","3", 4f,9));
                     garageAdapter = new GarageAdapter(garages,getActivity());
                     recyclerView.setAdapter(garageAdapter);
                     getGaragesCall = null;

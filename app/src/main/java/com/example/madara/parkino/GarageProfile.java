@@ -15,6 +15,7 @@ public class GarageProfile extends AppCompatActivity {
     ViewPager imageViewPager, profileViewPager;
     TabLayout tabLayout;
     ProfilePageAdapter profilePageAdapter;
+    private Bundle bundle = new Bundle();
     private String[] imageUrls = new String[]{
             "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
             "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
@@ -32,20 +33,57 @@ public class GarageProfile extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.garage_profile_tab_layout);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //
+        getIncomingIntent();
+        DetailsFragment detailsFragment = new DetailsFragment();
+        detailsFragment.setArguments(bundle);
+        ReserveFragment  reserveFragment = new ReserveFragment();
+        reserveFragment.setArguments(bundle);
+        MapFragment mapFragment = new MapFragment();
+        mapFragment.setArguments(bundle);
         profilePageAdapter = new ProfilePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        profilePageAdapter.addFragment(new DetailsFragment(), "Details");
-        profilePageAdapter.addFragment( new ReserveFragment(), "Reserve");
-        profilePageAdapter.addFragment(new MapFragment(), "Map");
+        profilePageAdapter.addFragment(detailsFragment, "Details");
+        profilePageAdapter.addFragment(reserveFragment, "Reserve");
+        profilePageAdapter.addFragment(mapFragment, "Map");
         profileViewPager.setAdapter(profilePageAdapter);
         tabLayout.setupWithViewPager(profileViewPager);
 
-        getIncomingIntent();
     }
 
     private void getIncomingIntent() {
-        if (getIntent().hasExtra("garageimgae") && getIntent().hasExtra("garagename")) {
-            String url = getIntent().getStringExtra("garageimgae");
-            String name = getIntent().getStringExtra("garagename");
+//        intent.putExtra("garageDistance", garage.getDistance());
+//        intent.putExtra("garageImage", garage.getImage());
+//        intent.putExtra("garageName", garage.getName());
+//        intent.putExtra("garageId", garage.getId());
+//        intent.putExtra("slotsNumbers", garage.getSlotsnumber());
+//        intent.putExtra("emptySlots", garage.getEmptyslots());
+//        intent.putExtra("points", garage.getPrice());
+//        intent.putExtra("stars", garage.stars);
+//        intent.putExtra("lat", garage.getLat());
+//        intent.putExtra("long", garage.getLng());
+        if (getIntent() != null) {
+            bundle.putString("garageImage",getIntent().getStringExtra("garageImage"));
+            bundle.putString("garageName",getIntent().getStringExtra("garageName"));
+            bundle.putString("garageDistance",getIntent().getStringExtra("garageDistance"));
+            bundle.putString("garageId",getIntent().getStringExtra("garageId"));
+            bundle.putString("slotsNumbers",getIntent().getStringExtra("slotsNumbers"));
+            bundle.putString("points",getIntent().getStringExtra("points"));
+            bundle.putString("emptySlots",getIntent().getStringExtra("emptySlots"));
+            bundle.putString("stars",getIntent().getStringExtra("stars"));
+            bundle.putString("lat",getIntent().getStringExtra("lat"));
+            bundle.putString("long",getIntent().getStringExtra("long"));
+
+
+
+            String url = getIntent().getStringExtra("garageImage");
+            String name = getIntent().getStringExtra("garageName");
+            String distance = getIntent().getStringExtra("garageDistance");
+            String id = getIntent().getStringExtra("garageId");
+            String slotsNumbers = getIntent().getStringExtra("slotsNumbers");
+            String emptySlots = getIntent().getStringExtra("emptySlots");
+            String points = getIntent().getStringExtra("points");
+            String stars = getIntent().getStringExtra("stars");
+            String lat = getIntent().getStringExtra("lat");
+            String lng = getIntent().getStringExtra("long");
             setContent(url, name);
         }
     }

@@ -55,9 +55,7 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     public GarageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.garage_row, parent, false);
         GarageHolder holder = new GarageHolder(row);
-        reserveDialog = new Dialog(context);
-        reserveDialog.setContentView(R.layout.dialog_reserve);
-        reserveDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         return holder;
     }
 
@@ -65,11 +63,11 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     public void onBindViewHolder(@NonNull final GarageHolder holder, int position) {
         final Garage garage = garageList.get(position);
         holder._garageName.setText(garage.getName());
-        holder._garageDistance.setText(garage.getDistance());
+        holder._garageDistance.setText(garage.getDistance()+ " km from centre");
         holder._garageId.setText(garage.getId());
-        holder._slotsNumbers.setText(String.valueOf(garage.getSlotsnumber()));
+        holder._slotsNumbers.setText(String.valueOf(garage.getSlotsnumber())+" Slots");
         holder._emptySlots.setText(String.valueOf(garage.getEmptyslots()));
-        holder._points.setText(garage.getPrice());
+        holder._points.setText(garage.getPrice()+" points/hour");
         holder._lng.setText(garage.getLng());
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
@@ -79,14 +77,26 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GarageProfile.class);
-                intent.putExtra("garageimgae", garage.getImage());
-                intent.putExtra("garagename", garage.getName());
+                intent.putExtra("garageDistance", garage.getDistance());
+                intent.putExtra("garageImage", garage.getImage());
+                intent.putExtra("garageName", garage.getName());
+                intent.putExtra("garageId", garage.getId());
+                intent.putExtra("slotsNumbers", garage.getSlotsnumber());
+                intent.putExtra("emptySlots", String.valueOf(garage.getEmptyslots()));
+                intent.putExtra("points", garage.getPrice());
+                intent.putExtra("stars", garage.stars);
+                intent.putExtra("lat", garage.getLat());
+                intent.putExtra("long", garage.getLng());
+
                 context.startActivity(intent);
             }
         });
         holder._btn_opengarage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                reserveDialog = new Dialog(context);
+                reserveDialog.setContentView(R.layout.dialog_reserve);
+                reserveDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 diaglogReserveGarageName = reserveDialog.findViewById(R.id.dialog_reserve_garage_name);
                 dialogReservePassword = reserveDialog.findViewById(R.id.dialog_reserve_password);
                 buttonStart = reserveDialog.findViewById(R.id.dialog_reserve_start);
