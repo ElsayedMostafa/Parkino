@@ -207,12 +207,12 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
                     getCardsCall=null;
-                   cards.add(new CardResponse("123456789123"));
-                    cards.add(new CardResponse("123456789123"));
-                    cards.add(new CardResponse("123456225685"));
-                    cards.add(new CardResponse("123456700023"));
-                    cardAdapter = new CardAdapter(cards, getActivity());
-                    recyclerView.setAdapter(cardAdapter);
+//                   cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456225685"));
+//                    cards.add(new CardResponse("123456700023"));
+//                    cardAdapter = new CardAdapter(cards, getActivity());
+//                    recyclerView.setAdapter(cardAdapter);
                 }
             }
         });

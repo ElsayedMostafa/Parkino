@@ -105,11 +105,11 @@ public class UserGaragesFragment extends Fragment {
                 if(!getUserGaragesCall.isCanceled()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-                    userGarages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    userGarages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    userGarages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
-                    userGarageAdapter = new UserGarageAdapter(userGarages,getActivity());
-                    recyclerView.setAdapter(userGarageAdapter);
+//                    userGarages.add(new Garage("123","Anwar Al Madinah","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+//                    userGarages.add(new Garage("123","TownTeam","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+//                    userGarages.add(new Garage("123","Mahalla","30.36","30.31",url,"0.6 km from centre", "40 Slots","3P", 4f,9));
+//                    userGarageAdapter = new UserGarageAdapter(userGarages,getActivity());
+//                    recyclerView.setAdapter(userGarageAdapter);
                     getUserGaragesCall = null;
                 }
             }

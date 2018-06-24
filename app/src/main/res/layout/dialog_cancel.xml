@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:background="#232323"
+        android:background="@color/startBlue"
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <TextView
@@ -63,5 +63,5 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:padding="10dp"
-        android:src="@drawable/default_profile_image" />
+        android:src="@drawable/circle_logo" />
 </RelativeLayout>

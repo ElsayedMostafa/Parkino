@@ -30,8 +30,8 @@ import retrofit2.http.POST;
 
 public interface Api {
     @Headers("content-type: application/json")
-    //@POST("login")
-    @POST("login-user.php")
+    @POST("login")
+    //@POST("login-user.php")
     Call<LoginResponse> loginUser(@Body User user);
 //
 //    //@POST("register-user.php")
