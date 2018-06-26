@@ -13,5 +13,9 @@ public class ReserveRequest {
     public String garage_id;
     @SerializedName("password")
     public String user_password;
+    @SerializedName("reserve_type")
+    public String selectedPackage;
+    @SerializedName("user_rfid")
+    public String rfid;
 
 }

@@ -65,8 +65,8 @@ public interface Api {
     Call<MainResponse> charge (@Body ChargeRequest chargeRequest);
     @POST("feedback")
     Call<MainResponse> feedback (@Body SendFeedbackRequest sendFeedbackRequest);
-    @POST("reserveGarage")
+    @POST("reserveSlot")
     Call<MainResponse> reserveGarage(@Body ReserveRequest reserveRequest);
-    @POST("searchGarages")
+    @POST("searchForGarage")
     Call<List<Garage>> searchGarages(@Body SearchRequest searchRequest);
 }

@@ -20,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.madara.parkino.adapters.CardAdapter;
 import com.example.madara.parkino.adapters.GarageAdapter;
+import com.example.madara.parkino.models.CardResponse;
 import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.GarageRequest;
 import com.example.madara.parkino.utils.Session;
@@ -42,10 +44,13 @@ public class GaragesFragment extends Fragment {
     private RecyclerView recyclerView ;
     private ProgressBar progressBar;
     private Call<List<Garage>> getGaragesCall;
+    private Call<List<CardResponse>> getCardsCall;
     private List<Garage> garages = new ArrayList<Garage>();
+    private List<CardResponse> cards = new ArrayList<CardResponse>();
     private GarageAdapter garageAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String lat,lng;
+    private ArrayList <String> rfids = new ArrayList<String>();
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
     public GaragesFragment() {
         // Required empty public constructor
@@ -63,6 +68,7 @@ public class GaragesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        rfids.add("Select Card");
         recyclerView = view.findViewById(R.id.garages_recyclerview);
         progressBar = view.findViewById(R.id.garages_progressbar);
         swipeRefreshLayout = view.findViewById(R.id.garages_refresh);
@@ -73,13 +79,16 @@ public class GaragesFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
 
                 if(getGaragesCall==null){
-                    getGarages("123","123");
+                    //30.787069, 31.000721
+                    getGarages("30.787069","31.000721");
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-
+        if(getCardsCall==null){
+            getCards();
+        }
 
     }
     private void getGarages(String lng, String lat){
@@ -96,12 +105,13 @@ public class GaragesFragment extends Fragment {
                 if(!getGaragesCall.isCanceled()){
                 try {
                     garages = response.body();
-                    garageAdapter = new GarageAdapter(garages,getActivity());
+                    garageAdapter = new GarageAdapter(garages,getActivity(),rfids);
                     recyclerView.setAdapter(garageAdapter);
                     progressBar.setVisibility(View.GONE);
                     getGaragesCall = null;
                 }catch (Exception e){
-                    Toast.makeText(getActivity(), "Failed to get garages", Toast.LENGTH_LONG).show();
+                    if(getActivity()!=null){
+                    Toast.makeText(getActivity(), "Failed to get garages", Toast.LENGTH_LONG).show();}
                     progressBar.setVisibility(View.GONE);
                     getGaragesCall = null;
 
@@ -112,11 +122,12 @@ public class GaragesFragment extends Fragment {
                 if(!getGaragesCall.isCanceled()) {
                     //30.787069, 31.000721
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
-//                    garages.add(new Garage("123","Anwar Al Madinah","30.787069","31.000721",url,"0.6", "20","3", 4f,9));
-//                    garages.add(new Garage("123","TownTeam","30.787069","31.000721",url,"0.6", "30","3", 4f,9));
-//                    garages.add(new Garage("123","Mahalla","30.787069","31.000721",url,"0.6", "40","3", 4f,9));
-//                    garageAdapter = new GarageAdapter(garages,getActivity());
+                    if(getActivity()!=null){
+                    Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();}
+//                    garages.add(new Garage("123","Anwar Al Madinah","30.787069","31.000721",url,"0.6666", "20","3", 4f,9));
+//                    garages.add(new Garage("123","TownTeam","30.787069","31.000721",url,"0.6666", "30","3", 4f,9));
+//                    garages.add(new Garage("123","Mahalla","30.787069","31.000721",url,"0.6666", "40","3", 4f,9));
+//                    garageAdapter = new GarageAdapter(garages,getActivity(),rfids);
 //                    recyclerView.setAdapter(garageAdapter);
                     getGaragesCall = null;
                 }
@@ -153,13 +164,55 @@ public class GaragesFragment extends Fragment {
 
         super.onCreateOptionsMenu(menu, inflater);
     }
+    private void getCards() {
+        progressBar.setVisibility(View.VISIBLE);
+        getCardsCall = WebService.getInstance().getApi().getCards(Session.getInstance().getUser().id);
+        getCardsCall.enqueue(new Callback<List<CardResponse>>() {
+            @Override
+            public void onResponse(Call<List<CardResponse>> call, Response<List<CardResponse>> response) {
+                if (!getCardsCall.isCanceled()) {
+                    try {
+                        cards = response.body();
+                        for(CardResponse iter:cards){
+                            rfids.add(iter.mId);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        getCardsCall=null;
+                    } catch (Exception e) {
+                        progressBar.setVisibility(View.GONE);
+                        if(getActivity()!=null){
+                        //Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                             }
+                        getCardsCall=null;
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<CardResponse>> call, Throwable t) {
+                if (!getCardsCall.isCanceled()) {
+                    progressBar.setVisibility(View.GONE);
+                    if(getActivity()!=null) {
+                        //Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
+                    }
+                    getCardsCall=null;
+//                   cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456225685"));
+//                    cards.add(new CardResponse("123456700023"));
+//                    cardAdapter = new CardAdapter(cards, getActivity());
+//                    recyclerView.setAdapter(cardAdapter);
+                }
+            }
+        });
+
+    }
     @Override
     public void onResume() {
         super.onResume();
         ((HomeScreen) getActivity()).getSupportActionBar().setTitle("Find Garage");
         if(getGaragesCall==null){
-            getGarages("123","123");
+            getGarages("1230.00","1230.00");
         }
     }
 
@@ -169,5 +222,9 @@ public class GaragesFragment extends Fragment {
         if(getGaragesCall!=null){
             getGaragesCall.cancel();
         }
+        else if (getCardsCall != null) {
+            getCardsCall.cancel();
+        }
+
     }
 }

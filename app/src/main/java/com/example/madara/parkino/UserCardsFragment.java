@@ -56,7 +56,7 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
     private String mBarcode;
     private String mUserPassword;
     private CardAdapter cardAdapter;
-    private List<CardResponse> cards = new ArrayList<CardResponse>();;
+    private List<CardResponse> cards = new ArrayList<CardResponse>();
     private Call<List<CardResponse>> getCardsCall;
     private Call<MainResponse> removeCardCall;
     private int position;

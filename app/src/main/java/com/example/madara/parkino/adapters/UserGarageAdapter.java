@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,8 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
     public void onBindViewHolder(@NonNull final GarageHolder holder, int position) {
         final Garage garage = garageList.get(position);
         holder._garageName.setText(garage.getName());
-        holder._garageDistance.setText(garage.getDistance()+ " km from centre");
+        final double dis = Math.round(Double.valueOf(garage.getDistance()) * 100.0) / 100.0;
+        holder._garageDistance.setText(String.valueOf(dis) + " km from centre");
         holder._garageId.setText(garage.getId());
         holder._slotsNumbers.setText(String.valueOf(garage.getSlotsnumber())+" Slots");
         holder._emptySlots.setText(String.valueOf(garage.getEmptyslots()));
@@ -69,12 +71,13 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
         //156.217.47.80:8000
-        Picasso.get().load("http://"+garage.getImage()+"/garagePhotosFolder/2/profile.jpg").resize(108,108).into(holder._image);
+        Picasso.get().load("http://"+garage.getImage()+"/garagePhotosFolder/2/profile.png").resize(108,108).into(holder._image);
+        Log.e(TAG,"http://"+garage.getImage()+"/garagePhotosFolder/2/profile.png");
         holder.garageRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GarageProfile.class);
-                intent.putExtra("garageDistance", garage.getDistance());
+                intent.putExtra("garageDistance", String.valueOf(dis));
                 intent.putExtra("garageImage", garage.getImage());
                 intent.putExtra("garageName", garage.getName());
                 intent.putExtra("garageId", garage.getId());

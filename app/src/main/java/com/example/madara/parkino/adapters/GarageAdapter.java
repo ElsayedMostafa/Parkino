@@ -13,12 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,10 +58,16 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     TextView diaglogReserveGarageName;
     EditText dialogReservePassword;
     Button buttonStart;
-    public GarageAdapter(List<Garage> garageList , Context ctx) {
+    Spinner reserveTypeSpinner, reserveRfidSpinner;
+    private int selectedPackage;
+    private List<String> userRfids;
+    private String rfidcard;
+
+    public GarageAdapter(List<Garage> garageList, Context ctx, List<String> rfids) {
         this.garageList = garageList;
         garageListFull = new ArrayList<>(garageList);
         this.context = ctx;
+        this.userRfids = rfids;
     }
 
     @NonNull
@@ -74,21 +83,23 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     public void onBindViewHolder(@NonNull final GarageHolder holder, int position) {
         final Garage garage = garageList.get(position);
         holder._garageName.setText(garage.getName());
-        holder._garageDistance.setText(garage.getDistance()+ " km from centre");
+        final double dis = Math.round(Double.valueOf(garage.getDistance()) * 100.0) / 100.0;
+        holder._garageDistance.setText(String.valueOf(dis) + " km from centre");
         holder._garageId.setText(garage.getId());
-        holder._slotsNumbers.setText(String.valueOf(garage.getSlotsnumber())+" Slots");
+        holder._slotsNumbers.setText(String.valueOf(garage.getSlotsnumber()) + " Slots");
         holder._emptySlots.setText(String.valueOf(garage.getEmptyslots()));
-        holder._points.setText(garage.getPrice()+" points/hour");
+        holder._points.setText(garage.getPrice() + " points/hour");
         holder._lng.setText(garage.getLng());
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
         //156.217.47.80:8000
-        Picasso.get().load("http://"+garage.getImage()+"/garagePhotosFolder/2/profile.jpg").resize(108,108).into(holder._image);
+        Picasso.get().load("http://" + garage.getImage() + "/garagePhotosFolder/2/profile.png").resize(108, 108).into(holder._image);
         holder.garageRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, GarageProfile.class);
-                intent.putExtra("garageDistance", garage.getDistance());
+
+                intent.putExtra("garageDistance", String.valueOf(dis));
                 intent.putExtra("garageImage", garage.getImage());
                 intent.putExtra("garageName", garage.getName());
                 intent.putExtra("garageId", garage.getId());
@@ -111,18 +122,72 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
                 diaglogReserveGarageName = reserveDialog.findViewById(R.id.dialog_reserve_garage_name);
                 dialogReservePassword = reserveDialog.findViewById(R.id.dialog_reserve_password);
                 buttonStart = reserveDialog.findViewById(R.id.dialog_reserve_start);
+                reserveTypeSpinner = reserveDialog.findViewById(R.id.reserve_type_spinner);
+                reserveRfidSpinner = reserveDialog.findViewById(R.id.reserve_rfid_spinner);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.reserve_type, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                reserveTypeSpinner.setAdapter(adapter);
+                reserveTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String text = parent.getItemAtPosition(position).toString();
+                        switch (text) {
+                            case "Select Package":
+                                selectedPackage = 999;
+                                break;
+                            case "1 point/hour":
+                                selectedPackage = 111;
+                                break;
+                            case "10 points/day":
+                                selectedPackage = 222;
+                                break;
+                            case "20 points/month":
+                                selectedPackage = 333;
+                                break;
+                            case "100 points/year":
+                                selectedPackage = 444;
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                //rfid Spinner
+                ArrayAdapter<String> rfidAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, userRfids);
+                rfidAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                reserveRfidSpinner.setAdapter(rfidAdapter);
+                reserveRfidSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        rfidcard = parent.getItemAtPosition(position).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 diaglogReserveGarageName.setText(garageList.get(holder.getAdapterPosition()).getName());
                 buttonStart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String password;
                         password = dialogReservePassword.getText().toString();
-                        if(password.isEmpty()){
+                        if (password.isEmpty()) {
                             dialogReservePassword.setError("Enter your password");
 
-                        }
-                        else{
+                        } else if (selectedPackage == 999) {
+                            Toast.makeText(context, "Choose Package", Toast.LENGTH_SHORT).show();
+                        } else if (rfidcard.equals("Select Card")) {
+                            Toast.makeText(context, "Choose Card", Toast.LENGTH_SHORT).show();
+
+                        } else {
                             ReserveRequest reserveRequest = new ReserveRequest();
+                            reserveRequest.rfid = rfidcard;
+                            reserveRequest.selectedPackage = String.valueOf(selectedPackage);
                             reserveRequest.user_password = password;
                             reserveRequest.garage_id = garageList.get(holder.getAdapterPosition()).getId();
                             reserveRequest.user_id = Session.getInstance().getUser().id;
@@ -143,20 +208,20 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
     }
 
 
-
     class GarageHolder extends RecyclerView.ViewHolder {
         TextView _garageName, _garageDistance, _garageId, _slotsNumbers, _emptySlots, _points, _lng, _lat;
         RatingBar _stars;
         ImageView _image;
         Button _btn_opengarage;
         CardView garageRow;
+
         public GarageHolder(View itemView) {
             super(itemView);
             garageRow = (CardView) itemView.findViewById(R.id.garage_row_id);
             _garageId = (TextView) itemView.findViewById(R.id.garage_id);
             _garageName = (TextView) itemView.findViewById(R.id.garage_name);
             _garageDistance = (TextView) itemView.findViewById(R.id.garage_distance);
-            _slotsNumbers =(TextView) itemView.findViewById(R.id.slots_number);
+            _slotsNumbers = (TextView) itemView.findViewById(R.id.slots_number);
             _emptySlots = (TextView) itemView.findViewById(R.id.empty_slots);
             _points = (TextView) itemView.findViewById(R.id.points);
             _lng = (TextView) itemView.findViewById(R.id.garage_lng);
@@ -167,21 +232,22 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
 
         }
     }
+
     @Override
     public Filter getFilter() {
         return garageFilter;
     }
+
     private Filter garageFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Garage> filteredList = new ArrayList<>();
-            if(constraint == null|| constraint.length() ==0){
+            if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(garageListFull);
-            }
-            else {
+            } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for(Garage garage:garageListFull){
-                    if(garage.getName().toLowerCase().contains(filterPattern)){
+                for (Garage garage : garageListFull) {
+                    if (garage.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(garage);
                     }
                 }
@@ -197,11 +263,12 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             garageList.clear();
-            garageList.addAll((List)results.values);
+            garageList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
-    public void reserveGarage(ReserveRequest reserveRequest){
+
+    public void reserveGarage(ReserveRequest reserveRequest) {
 
         final ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setIndeterminate(true);
@@ -211,25 +278,24 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
         reserveGarageCall.enqueue(new Callback<MainResponse>() {
             @Override
             public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
-                if(!reserveGarageCall.isCanceled()){
-                    try{
-                        if(response.body().status==1){
+                if (!reserveGarageCall.isCanceled()) {
+                    try {
+                        if (response.body().status == 1) {
                             progressDialog.cancel();
-                            Toast.makeText(context,response.body().message,Toast.LENGTH_LONG).show();
-                            reserveGarageCall =null;
+                            Toast.makeText(context, response.body().message, Toast.LENGTH_LONG).show();
+                            reserveGarageCall = null;
                             reserveDialog.cancel();
                         }
-                        if(response.body().status==0){
+                        if (response.body().status == 0) {
                             progressDialog.cancel();
-                            Toast.makeText(context,response.body().message,Toast.LENGTH_LONG).show();
-                            reserveGarageCall =null;
+                            Toast.makeText(context, response.body().message, Toast.LENGTH_LONG).show();
+                            reserveGarageCall = null;
                             reserveDialog.cancel();
                         }
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         progressDialog.cancel();
-                        Toast.makeText(context,"Failed",Toast.LENGTH_LONG).show();
-                        reserveGarageCall =null;
+                        Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+                        reserveGarageCall = null;
                         reserveDialog.cancel();
                     }
                 }
@@ -237,10 +303,10 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
 
             @Override
             public void onFailure(Call<MainResponse> call, Throwable t) {
-                if(!reserveGarageCall.isCanceled()){
+                if (!reserveGarageCall.isCanceled()) {
                     progressDialog.cancel();
-                    Toast.makeText(context,"Check Network Connection",Toast.LENGTH_LONG).show();
-                    reserveGarageCall =null;
+                    Toast.makeText(context, "Check Network Connection", Toast.LENGTH_LONG).show();
+                    reserveGarageCall = null;
                     reserveDialog.cancel();
                 }
 

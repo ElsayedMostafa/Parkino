@@ -20,4 +20,12 @@
     <string name="cards">Cards</string>
     <string name="garages">Garages</string>
     <string name="settings">Settings</string>
+    <!-- Spinner Array -->
+    <string-array name="reserve_type">
+        <item>Select Package</item>
+        <item>1 point/hour</item>
+        <item>10 points/day</item>
+        <item>20 points/month</item>
+        <item>100 points/year</item>
+    </string-array>
 </resources>

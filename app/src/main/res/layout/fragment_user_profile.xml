@@ -8,6 +8,7 @@
     tools:context="com.example.madara.parkino.UserProfileFragment">
 
     <ScrollView
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fafafa">
@@ -15,7 +16,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <ProgressBar
                 android:id="@+id/profile_progressbar"
                 android:layout_width="60dp"
@@ -23,7 +23,6 @@
                 android:layout_centerInParent="true"
                 android:elevation="4dp"
                 android:visibility="visible" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -206,18 +205,19 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_profile_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:width="120dp"
-                    android:background="@color/endtBlue"
-                    android:text="@string/settings"
-                    android:textAllCaps="false"
-                    android:textColor="#fff" />
+
             </LinearLayout>
+            <Button
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/btn_profile_settings"
+                android:layout_width="106dp"
+                android:layout_height="36dp"
+                android:layout_margin="16dp"
+                android:background="@color/endtBlue"
+                android:text="@string/settings"
+                android:textAllCaps="false"
+                android:textColor="#fff" />
         </RelativeLayout>
     </ScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

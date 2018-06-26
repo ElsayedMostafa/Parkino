@@ -16,13 +16,14 @@ public class GarageProfile extends AppCompatActivity {
     TabLayout tabLayout;
     ProfilePageAdapter profilePageAdapter;
     private Bundle bundle = new Bundle();
-    private String[] imageUrls = new String[]{
-            "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
-            "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
-            "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
-            "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
-            "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
-    };
+//    private String[] imageUrls = new String[]{
+//            "https://cdn.pixabay.com/photo/2016/11/11/23/34/cat-1817970_960_720.jpg",
+//            "https://cdn.pixabay.com/photo/2017/12/21/12/26/glowworm-3031704_960_720.jpg",
+//            "https://cdn.pixabay.com/photo/2017/12/24/09/09/road-3036620_960_720.jpg",
+//            "https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_960_720.jpg",
+//            "https://cdn.pixabay.com/photo/2017/10/10/15/28/butterfly-2837589_960_720.jpg"
+//    };
+    private String [] imageUrls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class GarageProfile extends AppCompatActivity {
         mapFragment.setArguments(bundle);
         profilePageAdapter = new ProfilePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         profilePageAdapter.addFragment(detailsFragment, "Details");
-        profilePageAdapter.addFragment(reserveFragment, "Reserve");
+        profilePageAdapter.addFragment(reserveFragment, "Status");
         profilePageAdapter.addFragment(mapFragment, "Map");
         profileViewPager.setAdapter(profilePageAdapter);
         tabLayout.setupWithViewPager(profileViewPager);
@@ -75,6 +76,12 @@ public class GarageProfile extends AppCompatActivity {
 
 
             String url = getIntent().getStringExtra("garageImage");
+            imageUrls = new String[]{
+            "http://"+url+"/garagePhotosFolder/2/1.jpg",
+            "http://"+url+"/garagePhotosFolder/2/2.jpg",
+            "http://"+url+"/garagePhotosFolder/2/3.jpg",
+            "http://"+url+"/garagePhotosFolder/2/4.jpg"};
+
             String name = getIntent().getStringExtra("garageName");
             String distance = getIntent().getStringExtra("garageDistance");
             String id = getIntent().getStringExtra("garageId");

@@ -17,14 +17,14 @@
     <application
         android:name=".utils.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppThemeSpec">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,15 +41,15 @@
 
         <activity
             android:name=".LoginScreen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppThemeSpec" />
         <activity
             android:name=".RegisterScreen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppThemeSpec" />
         <activity
             android:name=".HomeScreen"
             android:label="Find Garage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".QRScanner" />
+        <activity android:name=".QRScanner" android:label="Scan Smart Card"/>
         <activity android:name=".EditSettings" />
         <activity android:name=".Logout" />
         <activity

@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.madara.parkino.adapters.GarageAdapter;
+import com.example.madara.parkino.models.CardResponse;
 import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.GarageRequest;
 import com.example.madara.parkino.models.SearchRequest;
@@ -32,7 +33,10 @@ public class SearchResultsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private Call<List<Garage>> searchGaragesCall;
+    private Call<List<CardResponse>> getCardsCall;
     private List<Garage> garages = new ArrayList<Garage>();
+    private List<CardResponse> cards = new ArrayList<CardResponse>();
+    private ArrayList <String> rfids = new ArrayList<String>();
     private GarageAdapter garageAdapter;
     private int id;
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
@@ -41,11 +45,15 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
+        rfids.add("Select Card");
         recyclerView = findViewById(R.id.search_recyclerview);
         progressBar = findViewById(R.id.search_progressbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(SearchResultsActivity.this));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Search Garage");
+        if(getCardsCall == null){
+            getCards();
+        }
         if (getIntent() != null) {
             String search_text = getIntent().getStringExtra("search_text");
             String lat = getIntent().getStringExtra("lat");
@@ -71,12 +79,13 @@ public class SearchResultsActivity extends AppCompatActivity {
                 if (!searchGaragesCall.isCanceled()) {
                     try {
                         garages = response.body();
-                        garageAdapter = new GarageAdapter(garages, SearchResultsActivity.this);
+                        garageAdapter = new GarageAdapter(garages, SearchResultsActivity.this,rfids);
                         recyclerView.setAdapter(garageAdapter);
                         progressBar.setVisibility(View.GONE);
                         searchGaragesCall = null;
                     } catch (Exception e) {
-                        Toast.makeText(SearchResultsActivity.this, "Failed to get garages", Toast.LENGTH_LONG).show();
+                        if(SearchResultsActivity.this!=null){
+                        Toast.makeText(SearchResultsActivity.this, "Failed to get garages", Toast.LENGTH_LONG).show();}
                         progressBar.setVisibility(View.GONE);
                         searchGaragesCall = null;
 
@@ -132,8 +141,49 @@ public class SearchResultsActivity extends AppCompatActivity {
         if (searchGaragesCall != null) {
             searchGaragesCall.cancel();
         }
+        else if (getCardsCall != null) {
+            getCardsCall.cancel();
+        }
     }
+    private void getCards() {
+        progressBar.setVisibility(View.VISIBLE);
+        getCardsCall = WebService.getInstance().getApi().getCards(Session.getInstance().getUser().id);
+        getCardsCall.enqueue(new Callback<List<CardResponse>>() {
+            @Override
+            public void onResponse(Call<List<CardResponse>> call, Response<List<CardResponse>> response) {
+                if (!getCardsCall.isCanceled()) {
+                    try {
+                        cards = response.body();
+                        for(CardResponse iter:cards){
+                            rfids.add(iter.mId);
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        getCardsCall=null;
+                    } catch (Exception e) {
+                        progressBar.setVisibility(View.GONE);
+                        //Toast.makeText(SearchResultsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        getCardsCall=null;
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<CardResponse>> call, Throwable t) {
+                if (!getCardsCall.isCanceled()) {
+                    progressBar.setVisibility(View.GONE);
+                    //Toast.makeText(SearchResultsActivity.this, "Check Network Connection", Toast.LENGTH_LONG).show();
+                    getCardsCall=null;
+//                   cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456225685"));
+//                    cards.add(new CardResponse("123456700023"));
+//                    cardAdapter = new CardAdapter(cards, getActivity());
+//                    recyclerView.setAdapter(cardAdapter);
+                }
+            }
+        });
+
+    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
