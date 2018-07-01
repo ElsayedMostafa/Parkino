@@ -136,7 +136,7 @@
                                 android:paddingBottom="6dp"
                                 android:paddingLeft="6dp"
                                 android:paddingTop="6dp"
-                                android:text="password"
+                                tools:text="password"
                                 android:textColor="@color/lowBlackColor"
                                 android:textSize="18sp" />
 

@@ -60,6 +60,8 @@
             android:name=".SendFeedback"
             android:label="Send Feedback" />
         <activity android:name=".SearchResultsActivity"></activity>
+        <activity android:name=".HelpUser"></activity>
+        <activity android:name=".UserGarageProfile"></activity>
     </application>
 
 </manifest>

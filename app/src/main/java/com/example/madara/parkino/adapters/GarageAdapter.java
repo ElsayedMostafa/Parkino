@@ -34,6 +34,7 @@ import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.MainResponse;
 import com.example.madara.parkino.models.ReserveRequest;
 import com.example.madara.parkino.utils.Session;
+import com.example.madara.parkino.webservices.Urls;
 import com.example.madara.parkino.webservices.WebService;
 import com.squareup.picasso.Picasso;
 
@@ -93,7 +94,7 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
         //156.217.47.80:8000
-        Picasso.get().load("http://" + garage.getImage() + "/garagePhotosFolder/2/profile.png").resize(108, 108).into(holder._image);
+        Picasso.get().load("http://" +Urls.PHOTO_URL+ "/garagePhotosFolder/2/profile.png").resize(108, 108).into(holder._image);
         holder.garageRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

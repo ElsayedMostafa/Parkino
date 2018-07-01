@@ -45,6 +45,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
+
     }
 
     @Override
@@ -114,6 +115,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
             case R.id.tv_register_gotologin:
                 Intent gotToLog = new Intent(RegisterScreen.this, LoginScreen.class);
                 startActivity(gotToLog);
+                finish();
                 break;
 
 

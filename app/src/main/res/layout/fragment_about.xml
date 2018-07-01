@@ -1,13 +1,36 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3"
+    android:padding="16dp"
     tools:context="com.example.madara.parkino.AboutFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:tint="@color/colorPrimaryDark"
+        android:src="@drawable/white_logo"/>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="@string/version"
+        android:paddingTop="10dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright"
+        android:paddingTop="10dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        />
 
-</RelativeLayout>
+</LinearLayout>

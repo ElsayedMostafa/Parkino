@@ -1,6 +1,7 @@
 package com.example.madara.parkino.adapters;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,11 +24,23 @@ import android.widget.Toast;
 
 import com.example.madara.parkino.GarageProfile;
 import com.example.madara.parkino.R;
+import com.example.madara.parkino.UserGarageProfile;
+import com.example.madara.parkino.models.CancelGarageRequest;
 import com.example.madara.parkino.models.Garage;
+import com.example.madara.parkino.models.MainResponse;
+import com.example.madara.parkino.models.ReserveRequest;
+import com.example.madara.parkino.models.UserGarage;
+import com.example.madara.parkino.utils.Session;
+import com.example.madara.parkino.webservices.Urls;
+import com.example.madara.parkino.webservices.WebService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by madara on 3/12/18.
@@ -35,14 +48,15 @@ import java.util.List;
 
 public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.GarageHolder> implements Filterable {
     private static final String TAG = "UserGarageAdapter";
-    private List<Garage> garageList;
-    private List<Garage> garageListFull;
+    private List<UserGarage> garageList;
+    private List<UserGarage> garageListFull;
     private Context context;
     Dialog cancelDialog;
     TextView diaglogCancelGarageName;
     EditText dialogCancelPassword;
     Button buttonStart;
-    public UserGarageAdapter(List<Garage> garageList , Context ctx) {
+    private Call <MainResponse> cancelGarageRequestCall;
+    public UserGarageAdapter(List<UserGarage> garageList , Context ctx) {
         this.garageList = garageList;
         garageListFull = new ArrayList<>(garageList);
         this.context = ctx;
@@ -59,29 +73,28 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
 
     @Override
     public void onBindViewHolder(@NonNull final GarageHolder holder, int position) {
-        final Garage garage = garageList.get(position);
+        final UserGarage garage = garageList.get(position);
         holder._garageName.setText(garage.getName());
         final double dis = Math.round(Double.valueOf(garage.getDistance()) * 100.0) / 100.0;
         holder._garageDistance.setText(String.valueOf(dis) + " km from centre");
         holder._garageId.setText(garage.getId());
-        holder._slotsNumbers.setText(String.valueOf(garage.getSlotsnumber())+" Slots");
+        holder._slotsNumbers.setText(String.valueOf(garage.getSlotnumbers())+" Slots");
         holder._emptySlots.setText(String.valueOf(garage.getEmptyslots()));
         holder._points.setText(garage.getPrice()+" points/hour");
         holder._lng.setText(garage.getLng());
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
         //156.217.47.80:8000
-        Picasso.get().load("http://"+garage.getImage()+"/garagePhotosFolder/2/profile.png").resize(108,108).into(holder._image);
-        Log.e(TAG,"http://"+garage.getImage()+"/garagePhotosFolder/2/profile.png");
+        Picasso.get().load("http://"+Urls.PHOTO_URL+"/garagePhotosFolder/2/profile.png").resize(108,108).into(holder._image);
         holder.garageRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, GarageProfile.class);
+                Intent intent = new Intent(context, UserGarageProfile.class);
                 intent.putExtra("garageDistance", String.valueOf(dis));
                 intent.putExtra("garageImage", garage.getImage());
                 intent.putExtra("garageName", garage.getName());
                 intent.putExtra("garageId", garage.getId());
-                intent.putExtra("slotsNumbers", garage.getSlotsnumber());
+                intent.putExtra("slotsNumbers", garage.getSlotnumbers());
                 intent.putExtra("emptySlots", String.valueOf(garage.getEmptyslots()));
                 intent.putExtra("points", garage.getPrice());
                 intent.putExtra("stars", garage.stars);
@@ -90,7 +103,7 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
                 context.startActivity(intent);
             }
         });
-        holder._btn_opengarage.setOnClickListener(new View.OnClickListener() {
+        holder._btn_cancelgarage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cancelDialog = new Dialog(context);
@@ -109,7 +122,13 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
                             dialogCancelPassword.setError("Enter your password");
                         }
                         else{
-                            Toast.makeText(context,"yes",Toast.LENGTH_SHORT).show();
+                            CancelGarageRequest cancelGarageRequest = new CancelGarageRequest();
+                            cancelGarageRequest.userId = Session.getInstance().getUser().id;
+                            cancelGarageRequest.garage_id = garageList.get(holder.getAdapterPosition()).getId();
+                            cancelGarageRequest.userPassword = password;
+                            cancelGarageRequest.userSlot = garage.userSlot;
+                            cancelGarage(cancelGarageRequest);
+
                         }
                     }
                 });
@@ -130,7 +149,7 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
         TextView _garageName, _garageDistance, _garageId, _slotsNumbers, _emptySlots, _points, _lng, _lat;
         RatingBar _stars;
         ImageView _image;
-        Button _btn_opengarage;
+        Button _btn_cancelgarage;
         CardView garageRow;
         public GarageHolder(View itemView) {
             super(itemView);
@@ -145,7 +164,7 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
             _lat = (TextView) itemView.findViewById(R.id.garage_lat);
             _stars = (RatingBar) itemView.findViewById(R.id.rating);
             _image = (ImageView) itemView.findViewById(R.id.garage_image);
-            _btn_opengarage = (Button) itemView.findViewById(R.id.btn_opengarage);
+            _btn_cancelgarage = (Button) itemView.findViewById(R.id.btn_cancelgarage);
 
         }
     }
@@ -156,13 +175,13 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
     private Filter garageFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Garage> filteredList = new ArrayList<>();
+            List<UserGarage> filteredList = new ArrayList<>();
             if(constraint == null|| constraint.length() ==0){
                 filteredList.addAll(garageListFull);
             }
             else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                for(Garage garage:garageListFull){
+                for(UserGarage garage:garageListFull){
                     if(garage.getName().toLowerCase().contains(filterPattern)){
                         filteredList.add(garage);
                     }
@@ -183,4 +202,49 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
             notifyDataSetChanged();
         }
     };
+    public void cancelGarage(CancelGarageRequest cancelGarageRequest) {
+
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Cancel...");
+        progressDialog.show();
+        cancelGarageRequestCall = WebService.getInstance().getApi().cancelGarage(cancelGarageRequest);
+        cancelGarageRequestCall.enqueue(new Callback<MainResponse>() {
+            @Override
+            public void onResponse(Call<MainResponse> call, Response<MainResponse> response) {
+                if (!cancelGarageRequestCall.isCanceled()) {
+                    try {
+                        if (response.body().status == 1) {
+                            progressDialog.cancel();
+                            Toast.makeText(context, response.body().message, Toast.LENGTH_LONG).show();
+                            cancelGarageRequestCall = null;
+                            cancelDialog.cancel();
+                        }
+                        if (response.body().status == 0) {
+                            progressDialog.cancel();
+                            Toast.makeText(context, response.body().message, Toast.LENGTH_LONG).show();
+                            cancelGarageRequestCall = null;
+                            cancelDialog.cancel();
+                        }
+                    } catch (Exception e) {
+                        progressDialog.cancel();
+                        Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+                        cancelGarageRequestCall = null;
+                        cancelDialog.cancel();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MainResponse> call, Throwable t) {
+                if (!cancelGarageRequestCall.isCanceled()) {
+                    progressDialog.cancel();
+                    Toast.makeText(context, "Check Network Connection", Toast.LENGTH_LONG).show();
+                    cancelGarageRequestCall = null;
+                    cancelDialog.cancel();
+                }
+
+            }
+        });
+    }
 }

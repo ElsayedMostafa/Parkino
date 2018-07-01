@@ -2,6 +2,7 @@ package com.example.madara.parkino.webservices;
 
 
 
+import com.example.madara.parkino.models.CancelGarageRequest;
 import com.example.madara.parkino.models.Card;
 import com.example.madara.parkino.models.CardResponse;
 import com.example.madara.parkino.models.ChargeRequest;
@@ -13,6 +14,7 @@ import com.example.madara.parkino.models.ReserveRequest;
 import com.example.madara.parkino.models.SearchRequest;
 import com.example.madara.parkino.models.SendFeedbackRequest;
 import com.example.madara.parkino.models.User;
+import com.example.madara.parkino.models.UserGarage;
 import com.example.madara.parkino.models.UserProfileResponse;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -51,7 +54,7 @@ public interface Api {
     @POST("getGarages")
     Call<List<Garage>> getGarages(@Body GarageRequest garageRequest);
     @POST("getUserGarages")
-    Call<List<Garage>> getUserGarages(@Body GarageRequest garageRequest);
+    Call<List<UserGarage>> getUserGarages(@Body GarageRequest garageRequest);
 //    //edit user information
     @POST("ChangeUsername")
     Call<MainResponse> changeName(@Body User user);
@@ -69,4 +72,6 @@ public interface Api {
     Call<MainResponse> reserveGarage(@Body ReserveRequest reserveRequest);
     @POST("searchForGarage")
     Call<List<Garage>> searchGarages(@Body SearchRequest searchRequest);
+    @POST("phoneCancellation")
+    Call<MainResponse> cancelGarage(@Body CancelGarageRequest cancelGarageRequest);
 }

@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Parkino</string>
+    //action bar
+    <string name="action_about">About</string>
+    <string name="action_charge">Charge</string>
+    <string name="action_profile">My Profile</string>
+    <string name="action_garages">My Garages</string>
+    <string name="action_cards">My Cards</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_help">Help</string>
+    <string name="action_find_garage">Find Garage</string>
+
+    //login_register layout
     <string name="login">Login</string>
     <string name="forget_password">Forget Password?</string>
     <string name="email">Email</string>
@@ -11,15 +22,136 @@
     <string name="phone_number">Phone number</string>
     <string name="email_address">Email address</string>
     <string name="username">Username</string>
+    <string name="enter_password">Enter Your Password</string>
+
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    //help_feedback layout
+    <string name="name_optional">Name (optional)</string>
+    <string name="write_feedback">Write your feedback</string>
+    <string name="add_screenshot">Add screenshots (optional):</string>
+    <string name="send_feedback">Send Feedback</string>
+
+
+    //charge layout
+    <string name="select_package">Select a suitable package</string>
+    <string name="ten_points">10 Points</string>
+    <string name="ten_le">10 L.E</string>
+    <string name="twen_points">25 Points</string>
+    <string name="twin_le">25 L.E</string>
+    <string name="fif_points">50 Points</string>
+    <string name="fif_le">50 L.E</string>
+    <string name="hund_points">100 Points</string>
+    <string name="hund_le">100 L.E</string>
+
+    //details layout
+    <string name="about">About</string>
+    <string name="information">some information about garage put any data</string>
+    <string name="slots">40 slots</string>
+    <string name="available">5 available slots</string>
+    <string name="point_hour">1 point for hour</string>
+    <string name="distance">0.6 km from centre</string>
+
+    //help layout
+    <string name="help_you">How can we help you?</string>
+    <string name="describe_issue">Describe your issue &#8230;</string>
+    <string name="popular">Popular</string>
+    <string name="password_issue">Change or reset your password</string>
+    <string name="accuracy_issue">Find and improve your location\'s accuracy</string>
+    <string name="rfid_issue">Add or remove RFID card</string>
+    <string name="charge_issue">Charge your points</string>
+    <string name="reserve_issue">Reserve or cancel reservation</string>
+
+    <string name="map_frag">Map Fragment</string>
+
+    //reserve
+    <string name="you_have">You have &#160;</string>
+    <string name="_slots">&#160; Slots</string>
+    <string name="reserve">Reserve</string>
+
+    //dialog
+    <string name="cancel_reservation">Cancel Reservation</string>
+    <string name="anwar">Anwar Almadina</string>
+    <string name="take_car">Take My Car</string>
+    <string name="reservation">Reservation</string>
+
+    //settings_profile
+    <string name="name_of_user">Willian Snoe</string>
+    <string name="email_of_user">Wiliam@gmail.com</string>
+    <string name="phone_of_user">+266 225 225</string>
     <string name="points">Points</string>
     <string name="cards">Cards</string>
     <string name="garages">Garages</string>
     <string name="settings">Settings</string>
+
+    //garage layout
+    <string name="lat_lng">123456</string>
+    <string name="name_of_garage">Anwar Al Madinah</string>
+    <string name="total_slots">40 Slots</string>
+    <string name="your_points">0 P</string>
+    <string name="view">View</string>
+
+    //drawermenu layout
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_cards">My Cards</string>
+    <string name="my_garages">My Garages</string>
+    <string name="charge">Charge</string>
+    <string name="more">More</string>
+    <string name="help_feedback">Help &amp; feedback</string>
+    <string name="about_drawer">About</string>
+    <string name="logout">Logout</string>
+
+    <string name="search">Search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //help issues
+    <string name="find_accuracy">Find and improve your location\'s accuracy</string>
+    <string name="sometimes">Sometimes Google Maps might have trouble finding where you are located. If the GPS location of your blue dot on the map is inaccurate or the blue dot is not showing up, here are some things you can do to help fix the problem.</string>
+    <string name="see_location">See your current location on the map</string>
+    <string name="open_maps">1. On your android phone or tablet, open the Google Maps app. If you don\'t have the app, download it from the Play Store.</string>
+    <string name="blue_dot">2. you\'ll see a blue dot, which shows where you are. If you don\'t see a blue dot, go to the bottom and tap your location.</string>
+    <string name="turn_on">Turn on high-accuracy mode</string>
+    <string name="high_one">1. Open the Google Maps app then open the Settings app.</string>
+    <string name="high_two">2. Tap Location.</string>
+    <string name="high_three">3. At the top, switch location on.</string>
+    <string name="high_four">4. Tap Mode > High accuracy.</string>
+    <string name="helpful">If this article isn\'t helpful, send your feedback helping us to improve it.</string>
+    <string name="change_password">Change or reset passsword</string>
+    <string name="you_can">You can change your password for security reasons or reset it if you forget it.</string>
+    <string name="change">Change your password</string>
+    <string name="change1">1. Go to the settings of Parkino app.</string>
+    <string name="change2">2. Tap password.</string>
+    <string name="change3">3. Enter your new password then tab OK.</string>
+    <string name="reset">Reset your password</string>
+    <string name="charge_your_points">Charge your points</string>
+    <string name="you_charge">You should\'t let your points less than 10 points to guarantee that you can always be able to reserve garages anytime. </string>
+    <string name="to_charge">To charge your points :</string>
+    <string name="charge1">1. Tab the menu button of Parkino app.</string>
+    <string name="charge2">2. choose charge.</string>
+    <string name="charge3">3. Select the package of points you want to charge.</string>
+    <string name="charge4">4. Write your credit card data. </string>
+    <string name="charge5">5. Tab Pay button.</string>
+    <string name="rfid">Add or remove RFID card</string>
+    <string name="you_have_the">You have the ability to use more than one RFID card, so you can remove one or add one anytime.</string>
+    <string name="add">Add RFID card</string>
+    <string name="add2">2. Choose My Cards.</string>
+    <string name="add3">3. Tab the addition button down there.</string>
+    <string name="add4">4. Scan the QR code on the RFID card with the camera of your phone/tablet.</string>
+    <string name="add5">5. Parkino app will detect your card automatically and add it to your cards.</string>
+    <string name="remove">Remove RFID card</string>
+    <string name="remove3">3. Swipe right or left the card you want to delete.</string>
+    <string name="remove4">4. write your password for confirmation.</string>
+
+    //about layout
+    <string name="version">Parkino version 1.0</string>
+    <string name="copyright">Copyright &#169; 2018 \n Powered by Parkino team</string>
+
     <!-- Spinner Array -->
     <string-array name="reserve_type">
         <item>Select Package</item>

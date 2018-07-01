@@ -1,17 +1,17 @@
 package com.example.madara.parkino;
 
 import android.graphics.Point;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Display;
 
 import com.example.madara.parkino.adapters.ProfilePageAdapter;
 import com.example.madara.parkino.adapters.ViewPagerAdapter;
 import com.example.madara.parkino.webservices.Urls;
 
-public class GarageProfile extends AppCompatActivity {
+public class UserGarageProfile extends AppCompatActivity {
     private static final String TAG = "GarageProfile";
     ViewPager imageViewPager, profileViewPager;
     TabLayout tabLayout;
@@ -76,7 +76,8 @@ public class GarageProfile extends AppCompatActivity {
 
 
 
-            String url = Urls.PHOTO_URL;
+            Urls urls = new Urls();
+            String url = urls.PHOTO_URL;
             imageUrls = new String[]{
             "http://"+url+"/garagePhotosFolder/2/1.jpg",
             "http://"+url+"/garagePhotosFolder/2/2.jpg",

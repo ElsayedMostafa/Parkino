@@ -49,6 +49,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         //hide keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+
+
     }
 
     private void onLoginFailed() {
@@ -133,6 +135,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                                     Session.getInstance().startSession(user);
                                     progressDialog.cancel();
                                     Intent goToMain = new Intent(LoginScreen.this, HomeScreen.class);
+                                    goToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    goToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(goToMain);
                                     finish();
 
@@ -156,7 +160,6 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         if (!mLoginCall.isCanceled()) {
-                            Log.e(TAG, t.getLocalizedMessage());
                             progressDialog.cancel();
                             Toast.makeText(getBaseContext(), "Check Network Connection", Toast.LENGTH_LONG).show();
                             mLogin.setEnabled(true);

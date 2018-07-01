@@ -88,6 +88,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                             nameSetting.setText(response.body().user.user_name);
                             emailSetting.setText(response.body().user.user_email);
                             phoneSetting.setText(response.body().user.phone_number);
+                            passwordSetting.setText("password");
                             getProfileCall = null;
                         }
                     } catch (Exception e) {
@@ -107,6 +108,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
                     progressBar.setVisibility(View.GONE);
                     getProfileCall = null;
                 }
+
             }
         });
 

@@ -19,6 +19,7 @@ import com.example.madara.parkino.adapters.GarageAdapter;
 import com.example.madara.parkino.adapters.UserGarageAdapter;
 import com.example.madara.parkino.models.Garage;
 import com.example.madara.parkino.models.GarageRequest;
+import com.example.madara.parkino.models.UserGarage;
 import com.example.madara.parkino.utils.Session;
 import com.example.madara.parkino.webservices.WebService;
 
@@ -37,8 +38,8 @@ public class UserGaragesFragment extends Fragment {
     private final static String TAG = "UserGaragesFragment";
     private RecyclerView recyclerView ;
     private ProgressBar progressBar;
-    private Call<List<Garage>> getUserGaragesCall;
-    private List<Garage> userGarages = new ArrayList<Garage>();
+    private Call<List<UserGarage>> getUserGaragesCall;
+    private List<UserGarage> userGarages = new ArrayList<UserGarage>();
     private UserGarageAdapter userGarageAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
@@ -82,9 +83,9 @@ public class UserGaragesFragment extends Fragment {
         garagerequest.latitude = lat;
         garagerequest.longitude = lng;
         getUserGaragesCall = WebService.getInstance().getApi().getUserGarages(garagerequest);
-        getUserGaragesCall.enqueue(new Callback<List<Garage>>() {
+        getUserGaragesCall.enqueue(new Callback<List<UserGarage>>() {
             @Override
-            public void onResponse(Call<List<Garage>> call, Response<List<Garage>> response) {
+            public void onResponse(Call<List<UserGarage>> call, Response<List<UserGarage>> response) {
                 //Log.e(TAG,response.body().toString());
                 if(!getUserGaragesCall.isCanceled()){
                     try {
@@ -101,7 +102,7 @@ public class UserGaragesFragment extends Fragment {
                     }}
             }
             @Override
-            public void onFailure(Call<List<Garage>> call, Throwable t) {
+            public void onFailure(Call<List<UserGarage>> call, Throwable t) {
                 if(!getUserGaragesCall.isCanceled()) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
