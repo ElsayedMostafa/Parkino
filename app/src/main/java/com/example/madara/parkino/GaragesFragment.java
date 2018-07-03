@@ -1,8 +1,13 @@
 package com.example.madara.parkino;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,6 +54,9 @@ public class GaragesFragment extends Fragment {
     private List<CardResponse> cards = new ArrayList<CardResponse>();
     private GarageAdapter garageAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    LocationManager lm ;
+    boolean gps_enabled = false;
+    boolean network_enabled = false;
     private String lat,lng;
     private ArrayList <String> rfids = new ArrayList<String>();
     String url = "https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?cs=srgb&dl=mobilechallenge-close-up-dew-807598.jpg&fm=jpg";
@@ -72,20 +80,21 @@ public class GaragesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.garages_recyclerview);
         progressBar = view.findViewById(R.id.garages_progressbar);
         swipeRefreshLayout = view.findViewById(R.id.garages_refresh);
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
 
-                if(getGaragesCall==null){
-                    //30.787069, 31.000721
-                    getGarages("30.787069","31.000721");
-                }
+                if(network_enabled==true || gps_enabled == true){
+                    if(getGaragesCall==null){
+                        getGarages("1230.00","1230.00");
+                    }}
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
+        checkGps();
         if(getCardsCall==null){
             getCards();
         }
@@ -165,7 +174,7 @@ public class GaragesFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
     private void getCards() {
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
         getCardsCall = WebService.getInstance().getApi().getCards(Session.getInstance().getUser().id);
         getCardsCall.enqueue(new Callback<List<CardResponse>>() {
             @Override
@@ -176,7 +185,7 @@ public class GaragesFragment extends Fragment {
                         for(CardResponse iter:cards){
                             rfids.add(iter.mId);
                         }
-                        progressBar.setVisibility(View.GONE);
+                        //progressBar.setVisibility(View.GONE);
                         getCardsCall=null;
                     } catch (Exception e) {
                         progressBar.setVisibility(View.GONE);
@@ -191,7 +200,7 @@ public class GaragesFragment extends Fragment {
             @Override
             public void onFailure(Call<List<CardResponse>> call, Throwable t) {
                 if (!getCardsCall.isCanceled()) {
-                    progressBar.setVisibility(View.GONE);
+                    //progressBar.setVisibility(View.GONE);
                     if(getActivity()!=null) {
                         //Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
                     }
@@ -207,13 +216,48 @@ public class GaragesFragment extends Fragment {
         });
 
     }
+    private void checkGps(){
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setMessage(getActivity().getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(getActivity().getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    getContext().startActivity(myIntent);
+                    //get gps
+                }
+            });
+            dialog.setNegativeButton(getActivity().getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+            dialog.show();
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
         ((HomeScreen) getActivity()).getSupportActionBar().setTitle("Find Garage");
-        if(getGaragesCall==null){
+        if(network_enabled==true || gps_enabled == true){
+            if(getGaragesCall==null){
             getGarages("1230.00","1230.00");
-        }
+        }}
+
     }
 
     @Override

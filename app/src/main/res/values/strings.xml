@@ -147,6 +147,9 @@
     <string name="remove">Remove RFID card</string>
     <string name="remove3">3. Swipe right or left the card you want to delete.</string>
     <string name="remove4">4. write your password for confirmation.</string>
+    <string name="gps_network_not_enabled">GPS Not Enabled</string>
+    <string name="open_location_settings">Open Location Settings</string>
+    <string name="Cancel">Cancel</string>
 
     //about layout
     <string name="version">Parkino version 1.0</string>
