@@ -2,6 +2,7 @@ package com.example.madara.parkino;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class MapFragment extends Fragment {
         if (bundle != null) {
             lat = Double.valueOf(bundle.getString("lat"));
             lng = Double.valueOf(bundle.getString("long"));
+            Log.e("map",lat+","+lng);
             garageName = bundle.getString("garageName");
         }
         mMapView = (MapView) rootView.findViewById(R.id.mapView);

@@ -213,6 +213,7 @@ public class EditSettings extends AppCompatActivity {
                                 Toast.makeText(EditSettings.this, response.body().message, Toast.LENGTH_SHORT).show();
                                 progressDialog.cancel();
                                 startActivity(new Intent(EditSettings.this, Logout.class));
+
                             }
                         } catch (Exception e) {
                             Toast.makeText(EditSettings.this, "Failed", Toast.LENGTH_SHORT).show();

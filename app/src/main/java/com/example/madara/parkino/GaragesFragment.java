@@ -89,7 +89,8 @@ public class GaragesFragment extends Fragment {
 
                 if(network_enabled==true || gps_enabled == true){
                     if(getGaragesCall==null){
-                        getGarages("1230.00","1230.00");
+                        //30.8246818,30.9918712
+                        getGarages("30.9918712","30.8246818");
                     }}
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -255,7 +256,7 @@ public class GaragesFragment extends Fragment {
         ((HomeScreen) getActivity()).getSupportActionBar().setTitle("Find Garage");
         if(network_enabled==true || gps_enabled == true){
             if(getGaragesCall==null){
-            getGarages("1230.00","1230.00");
+            getGarages("30.9918712","30.8246818");
         }}
 
     }

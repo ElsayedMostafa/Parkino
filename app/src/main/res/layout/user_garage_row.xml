@@ -148,7 +148,7 @@
                         android:textColor="#689F38"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        tools:text="0 P" />
+                        tools:text="" />
 
                     <Button
                         android:id="@+id/btn_cancelgarage"

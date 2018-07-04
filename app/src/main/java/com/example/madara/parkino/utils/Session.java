@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 
 
+import com.example.madara.parkino.EditSettings;
 import com.example.madara.parkino.LoginScreen;
+import com.example.madara.parkino.Logout;
 import com.example.madara.parkino.models.User;
 
 import io.realm.Realm;
@@ -65,7 +67,10 @@ public class Session {
     }
     public void logoutAndGoToLogin(Activity activity) {
         logout();
-        activity.startActivity(new Intent(activity, LoginScreen.class));
+        Intent goToLogin = new Intent(activity, LoginScreen.class);
+        goToLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(goToLogin);
         activity.finish();
     }
     public void logoutsecurity(Activity activity){

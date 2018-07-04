@@ -70,7 +70,7 @@ public class UserGaragesFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
 
                 if(getUserGaragesCall==null){
-                    getUserGarages("123","123");
+                    getUserGarages("30.9918712","30.8246818");
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -121,7 +121,7 @@ public class UserGaragesFragment extends Fragment {
         super.onResume();
         ((HomeScreen) getActivity()).getSupportActionBar().setTitle("My Garages");
         if(getUserGaragesCall==null){
-            getUserGarages("123","123");
+            getUserGarages("30.9918712","30.8246818");
         }
     }
     @Override

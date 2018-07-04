@@ -80,7 +80,19 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
         holder._garageId.setText(garage.getId());
         holder._slotsNumbers.setText(String.valueOf(garage.getSlotnumbers())+" Slots");
         holder._emptySlots.setText(String.valueOf(garage.getEmptyslots()));
-        holder._points.setText(garage.getPrice()+" points/hour");
+        if(garage.getAnnually_tier().equals("1")){
+            holder._points.setText("100 points/year");
+        }
+        else if(garage.getMonthly_tier().equals("1")){
+            holder._points.setText("20 points/month");
+        }
+        else if(garage.getDaily_tier().equals("1")){
+            holder._points.setText("10 points/day");
+        }
+        else if(garage.getHourly_tier().equals("1")){
+            holder._points.setText("1 point/hour");
+
+        }
         holder._lng.setText(garage.getLng());
         holder._lat.setText(garage.getLat());
         holder._stars.setRating(garage.getStars());
@@ -100,6 +112,21 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
                 intent.putExtra("stars", garage.stars);
                 intent.putExtra("lat", garage.getLat());
                 intent.putExtra("long", garage.getLng());
+                intent.putExtra("user_card",garage.getUserCard());
+                intent.putExtra("user_slot",garage.getUserSlot());
+                if(garage.getAnnually_tier().equals("1")){
+                    intent.putExtra("type","100 points/year");
+                }
+                else if(garage.getMonthly_tier().equals("1")){
+                    intent.putExtra("type","20 points/month");
+                }
+                else if(garage.getDaily_tier().equals("1")){
+                    intent.putExtra("type","10 points/day");
+                }
+                else if(garage.getHourly_tier().equals("1")){
+                    intent.putExtra("type","1 point/hour");
+
+                }
                 context.startActivity(intent);
             }
         });

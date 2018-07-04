@@ -38,7 +38,7 @@ public class UserGarageProfile extends AppCompatActivity {
         getIncomingIntent();
         DetailsFragment detailsFragment = new DetailsFragment();
         detailsFragment.setArguments(bundle);
-        ReserveFragment  reserveFragment = new ReserveFragment();
+        UserDetailsFragment  reserveFragment = new UserDetailsFragment();
         reserveFragment.setArguments(bundle);
         MapFragment mapFragment = new MapFragment();
         mapFragment.setArguments(bundle);
@@ -73,6 +73,9 @@ public class UserGarageProfile extends AppCompatActivity {
             bundle.putString("stars",getIntent().getStringExtra("stars"));
             bundle.putString("lat",getIntent().getStringExtra("lat"));
             bundle.putString("long",getIntent().getStringExtra("long"));
+            bundle.putString("user_card",getIntent().getStringExtra("user_card"));
+            bundle.putString("user_slot",getIntent().getStringExtra("user_slot"));
+            bundle.putString("type",getIntent().getStringExtra("type"));
 
 
 
