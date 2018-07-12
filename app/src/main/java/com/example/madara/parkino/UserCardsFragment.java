@@ -215,7 +215,7 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Check Network Connection", Toast.LENGTH_LONG).show();
                     getCardsCall=null;
-//                   cards.add(new CardResponse("123456789123"));
+//                    cards.add(new CardResponse("123456789123"));
 //                    cards.add(new CardResponse("123456789123"));
 //                    cards.add(new CardResponse("123456225685"));
 //                    cards.add(new CardResponse("123456700023"));
@@ -351,7 +351,8 @@ public class UserCardsFragment extends Fragment implements GetPassword.PasswordL
 
     @Override
     public void cancelPassword() {
-        cardAdapter.notifyDataSetChanged();
+        if(cards.size()!=0){
+        cardAdapter.notifyDataSetChanged();}
     }
     @Override
     public void onResume() {

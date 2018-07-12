@@ -139,13 +139,13 @@ public class GarageAdapter extends RecyclerView.Adapter<GarageAdapter.GarageHold
                             case "1 point/hour":
                                 selectedPackage = 111;
                                 break;
-                            case "10 points/day":
+                            case "7 points/day":
                                 selectedPackage = 222;
                                 break;
-                            case "20 points/month":
+                            case "50 points/month":
                                 selectedPackage = 333;
                                 break;
-                            case "100 points/year":
+                            case "500 points/year":
                                 selectedPackage = 444;
                                 break;
                         }

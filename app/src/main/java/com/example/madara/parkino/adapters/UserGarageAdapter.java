@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -244,6 +245,7 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
                         if (response.body().status == 1) {
                             progressDialog.cancel();
                             Toast.makeText(context, response.body().message, Toast.LENGTH_LONG).show();
+
                             cancelGarageRequestCall = null;
                             cancelDialog.cancel();
                         }
@@ -266,6 +268,7 @@ public class UserGarageAdapter extends RecyclerView.Adapter<UserGarageAdapter.Ga
             public void onFailure(Call<MainResponse> call, Throwable t) {
                 if (!cancelGarageRequestCall.isCanceled()) {
                     progressDialog.cancel();
+                    Log.e(TAG,t.getLocalizedMessage());
                     Toast.makeText(context, "Check Network Connection", Toast.LENGTH_LONG).show();
                     cancelGarageRequestCall = null;
                     cancelDialog.cancel();

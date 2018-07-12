@@ -24,7 +24,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
     private final String TAG = "RegisterActivity";
     private Call<MainResponse> mRegisterCall;
     private EditText mRegisterUsername, mRegisterEmail, mRegisterPassword, mRegisterRepeatPassword, mRegisterPhone;
-    private TextView mRegisterGoToLogin;
+    private Button mRegisterGoToLogin;
     private Button mRegister;
 
     @Override
@@ -36,7 +36,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
         mRegisterPassword = (EditText) findViewById(R.id.et_register_password);
         mRegisterRepeatPassword = (EditText) findViewById(R.id.et_register_re_password);
         mRegisterPhone = (EditText) findViewById(R.id.et_register_phone);
-        mRegisterGoToLogin = (TextView) findViewById(R.id.tv_register_gotologin);
+        mRegisterGoToLogin = (Button) findViewById(R.id.tv_register_gotologin);
         mRegister = (Button) findViewById(R.id.btn_register);
         //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         mRegister.setOnClickListener(this);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,20 +25,25 @@ import retrofit2.Response;
 public class LoginScreen extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "LoginScreen";
     private EditText mLoginEmail, mLoginPassword;
-    private TextView mLoginForgetPassword, mLoginNoAccount;
-    private Button mLogin;
+    RelativeLayout rellay1, rellay2;
+    private Button mLogin, mLoginNoAccount,mLoginForgetPassword;
     private Call<LoginResponse> mLoginCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
+        rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
         mLoginEmail = (EditText) findViewById(R.id.et_login_email);
         mLoginPassword = (EditText) findViewById(R.id.et_login_password);
-        mLoginForgetPassword = (TextView) findViewById(R.id.tv_login_forgetpassword);
-        mLoginNoAccount = (TextView) findViewById(R.id.tv_login_dont_have_account);
+        mLoginForgetPassword = (Button) findViewById(R.id.tv_login_forgetpassword);
+        mLoginNoAccount = (Button) findViewById(R.id.tv_login_dont_have_account);
         mLogin = (Button) findViewById(R.id.btn_login);
+        final boolean i =  Session.getInstance().isUserLoggedIn();
         //++++++++++++++++++++++++++++++++++++++++++
+        rellay1.setVisibility(View.VISIBLE);
+        rellay2.setVisibility(View.VISIBLE);
         if (getIntent() != null) {
             String email = getIntent().getStringExtra("email");
             String pass = getIntent().getStringExtra("pass");
@@ -60,7 +66,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private boolean validate() {
         boolean valid = true;
 
-        String email = mLoginEmail.getText().toString();
+        String email = mLoginEmail.getText().toString().trim();
         String password = mLoginPassword.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
